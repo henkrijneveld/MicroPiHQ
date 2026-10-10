@@ -35,7 +35,7 @@ The files can most easily be accessed from the Pi through an SFTP connection. It
 
 Installation assumes that the latest version of Trixie is installed on the SD card. This can be either the Lite version or the desktop version, although the latter soon becomes rather heavy for a Pi 3B+. The HQ camera must also be connected and tested with rpicam-still.
 
-Download the ZIP, unzip it into a directory on the Pi and run the install.sh script. At the end, the installation is checked. If there are problems, the check-installation.sh script can be run; this tests whether all required components are present.
+Download the ZIP from the latest release (right column on github), unzip it into a directory on the Pi and run the install.sh script. At the end, the installation is checked. If there are problems, the check-installation.sh script can be run; this tests whether all required components are present.
 
 Photo files are stored in the photos directory under the installation directory. I have deliberately not made this configurable in order to keep things unambiguous.
 
