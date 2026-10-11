@@ -18,12 +18,13 @@
   cursor: grabbing;
 }
 
-.preview-zoom-controls {
+.preview-display-controls {
   position: absolute;
   left: 16px;
   bottom: 16px;
   z-index: 5;
   display: flex;
+  align-items: center;
   gap: 3px;
   padding: 3px;
   border: 1px solid var(--ui-border);
@@ -31,11 +32,17 @@
   background: color-mix(in srgb, var(--color-background) 88%, transparent);
 }
 
-.preview-zoom-controls button {
+.preview-zoom-controls,
+#preview-panel .preview-flip-controls {
+  display: flex;
+  gap: 3px;
+}
+
+.preview-display-controls button {
   min-width: 34px;
 }
 
-.preview-zoom-controls button[aria-pressed='true'] {
+.preview-display-controls button[aria-pressed='true'] {
   color: var(--ui-active-choice);
   opacity: 1;
 }
