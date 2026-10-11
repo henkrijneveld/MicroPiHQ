@@ -83,6 +83,9 @@ export const translations = {
     'status.pingHint': 'Retourtijd van een HTTP-verzoek tussen browser en Pi (geen ICMP-ping)',
 
     'frameRate.title': 'Framesnelheid',
+    'preview.resolution': 'Previewresolutie',
+    'preview.low': 'Laag 640×480',
+    'preview.high': 'Hoog 1280×960',
 
     'exposure.title': 'Belichting',
     'exposure.shutterSpeed': 'Sluitertijd',
@@ -177,6 +180,9 @@ export const translations = {
     'status.pingHint': 'HTTP round-trip time between browser and Pi (not an ICMP ping)',
 
     'frameRate.title': 'Frame rate',
+    'preview.resolution': 'Preview resolution',
+    'preview.low': 'Low 640×480',
+    'preview.high': 'High 1280×960',
 
     'exposure.title': 'Exposure',
     'exposure.shutterSpeed': 'Shutter speed',
