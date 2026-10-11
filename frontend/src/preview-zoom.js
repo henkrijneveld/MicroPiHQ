@@ -44,7 +44,7 @@ function applyPreviewTransform(panel) {
   panX = clamped.x
   panY = clamped.y
 
-  image.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${previewZoom})`
+  image.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${previewZoom}) scale(var(--preview-flip-x, 1), var(--preview-flip-y, 1))`
   panel.classList.toggle('preview-zoomed', previewZoom > 1)
 
   for (const button of panel.querySelectorAll('[data-preview-zoom]')) {
@@ -83,7 +83,8 @@ function createZoomControls(panel) {
     controls.appendChild(button)
   }
 
-  panel.appendChild(controls)
+  const container = panel.querySelector('.preview-display-controls') || panel
+  container.prepend(controls)
 }
 
 function startDrag(event, panel, image) {
