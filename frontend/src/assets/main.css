@@ -368,12 +368,8 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-/* Browser-only preview flipping; the MJPEG stream and saved photos stay unchanged. */
-#preview-panel {
-  position: relative;
-}
-
-.preview-flip-controls {
+/* The separate Liveview keeps its own overlay; camera preview shares the zoom toolbar. */
+#liveview-panel .preview-flip-controls {
   position: absolute;
   z-index: 2;
   left: 12px;
@@ -385,7 +381,7 @@ a {
   background: rgb(0 0 0 / 65%);
 }
 
-.preview-flip-controls button {
+#liveview-panel .preview-flip-controls button {
   color: #111;
   background: #f1f1f1;
   border: 2px solid #777;
@@ -393,7 +389,7 @@ a {
   opacity: 1;
 }
 
-.preview-flip-controls button.active-choice {
+#liveview-panel .preview-flip-controls button.active-choice {
   color: blue;
   background: #fff;
   border: 1px solid #aaa;
