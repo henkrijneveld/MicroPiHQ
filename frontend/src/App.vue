@@ -11,6 +11,32 @@ const liveviewMode = ref('width')
 const liveviewOffset = ref({ x: 0, y: 0 })
 let liveviewDragStart = null
 
+const PREVIEW_FLIP_STORAGE_KEY = 'microrasp-preview-flip'
+
+function storedPreviewFlip() {
+  try {
+    return localStorage.getItem(PREVIEW_FLIP_STORAGE_KEY) || ''
+  } catch (_) {
+    return ''
+  }
+}
+
+const previewFlip = ref(storedPreviewFlip())
+
+function togglePreviewFlip(axis) {
+  const selected = new Set(previewFlip.value)
+  if (selected.has(axis)) selected.delete(axis)
+  else selected.add(axis)
+
+  previewFlip.value = ['h', 'v'].filter(value => selected.has(value)).join('')
+
+  try {
+    localStorage.setItem(PREVIEW_FLIP_STORAGE_KEY, previewFlip.value)
+  } catch (_) {
+    // The setting still works until the page is reloaded.
+  }
+}
+
 const status = ref(null)
 const error = ref(null)
 const previewImage = ref(null)
@@ -855,9 +881,13 @@ onUnmounted(() => {
       @pointerup="endLiveviewDrag" @pointercancel="endLiveviewDrag" @lostpointercapture="endLiveviewDrag">
       <img v-if="status?.camera?.connected" class="liveview-image"
         :class="'liveview-' + liveviewMode"
-        :style="{ transform: 'translate(calc(-50% + ' + liveviewOffset.x + 'px), calc(-50% + ' + liveviewOffset.y + 'px))' }"
+        :style="{ transform: `translate(calc(-50% + ${liveviewOffset.x}px), calc(-50% + ${liveviewOffset.y}px)) scale(${previewFlip.includes('h') ? -1 : 1}, ${previewFlip.includes('v') ? -1 : 1})` }"
         :src="'/api/stream'" :alt="t('aria.liveCameraImage')" draggable="false">
       <p v-else class="liveview-error">{{ status?.camera?.error || t('status.cameraNotConnected') }}</p>
+    </div>
+    <div v-if="status?.camera?.connected" class="preview-flip-controls" role="group" :aria-label="t('preview.flip')">
+      <button type="button" :class="{ 'active-choice': previewFlip.includes('h') }" :aria-pressed="previewFlip.includes('h')" :title="t('preview.flipHorizontal')" @click="togglePreviewFlip('h')">{{ t('preview.horizontal') }}</button>
+      <button type="button" :class="{ 'active-choice': previewFlip.includes('v') }" :aria-pressed="previewFlip.includes('v')" :title="t('preview.flipVertical')" @click="togglePreviewFlip('v')">{{ t('preview.vertical') }}</button>
     </div>
     <div class="liveview-actions">
       <button :disabled="liveviewMode === 'width'" @click="setLiveviewMode('width')">{{ t('liveview.width') }}</button>
@@ -941,12 +971,17 @@ onUnmounted(() => {
       <img
         v-if="status?.camera?.connected"
         ref="previewImage"
+        :style="{ transform: `scale(${previewFlip.includes('h') ? -1 : 1}, ${previewFlip.includes('v') ? -1 : 1})` }"
         :src="'/api/stream'"
         :alt="t('aria.liveCameraImage')"
       >
       <p v-else-if="status && !status.camera.connected">
         {{ t('status.cameraNotConnected') }}<template v-if="status.camera.error"> · {{ status.camera.error }}</template>
       </p>
+      <div v-if="status?.camera?.connected" class="preview-flip-controls" role="group" :aria-label="t('preview.flip')">
+      <button type="button" :class="{ 'active-choice': previewFlip.includes('h') }" :aria-pressed="previewFlip.includes('h')" :title="t('preview.flipHorizontal')" @click="togglePreviewFlip('h')">{{ t('preview.horizontal') }}</button>
+      <button type="button" :class="{ 'active-choice': previewFlip.includes('v') }" :aria-pressed="previewFlip.includes('v')" :title="t('preview.flipVertical')" @click="togglePreviewFlip('v')">{{ t('preview.vertical') }}</button>
+      </div>
     </section>
 
     <aside id="controls-panel" :aria-label="t('aria.cameraSettings')">
