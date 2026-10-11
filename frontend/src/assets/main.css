@@ -367,3 +367,34 @@ a {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* Browser-only preview flipping; the MJPEG stream and saved photos stay unchanged. */
+#preview-panel {
+  position: relative;
+}
+
+.preview-flip-controls {
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 5px;
+  background: rgb(0 0 0 / 65%);
+}
+
+.preview-flip-controls button {
+  color: #111;
+  background: #f1f1f1;
+  border: 2px solid #777;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.preview-flip-controls button.active-choice {
+  color: blue;
+  background: #fff;
+  border: 1px solid #aaa;
+}
