@@ -24,7 +24,9 @@ from picamera2.outputs import FileOutput
 from pydantic import BaseModel
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
-LIVE_SIZE = (1280, 960)
+PREVIEW_RESOLUTIONS = {"low": (640, 480), "high": (1280, 960)}
+preview_resolution = "high"
+LIVE_SIZE = PREVIEW_RESOLUTIONS[preview_resolution]
 LIVE_SENSOR_SIZE = (2028, 1520)
 PHOTO_DIR = PROJECT_DIR / "photos"
 FRONTEND_DIST = PROJECT_DIR / "frontend" / "dist"
@@ -160,6 +162,10 @@ class ExposureValueSettings(BaseModel):
 
 class FrameRateSettings(BaseModel):
     fps: int
+
+
+class PreviewResolutionSettings(BaseModel):
+    resolution: str
 
 
 class SaturationSettings(BaseModel):
@@ -541,6 +547,8 @@ def stream_stats():
         clients = [dict(client) for client in stream_clients.values()]
     return {
         "target_fps": frame_rate,
+        "preview_resolution": preview_resolution,
+        "preview_size": list(LIVE_SIZE),
         "encoded_fps": round((len(times) - 1) / span, 1) if span > 0 else 0,
         "samples": len(times),
         "average_jpeg_kb": round(total_bytes / len(recent) / 1000, 1) if recent else 0,
@@ -1032,6 +1040,63 @@ def download_file(filename: str):
         media_type="image/jpeg",
         filename=photo_path.name,
     )
+
+
+@app.get("/api/preview/resolution")
+def get_preview_resolution():
+    if picam2 is None:
+        raise HTTPException(status_code=503, detail="Camera not available")
+
+    return {
+        "resolution": preview_resolution,
+        "size": list(LIVE_SIZE),
+        "options": list(PREVIEW_RESOLUTIONS),
+    }
+
+
+@app.put("/api/preview/resolution")
+def set_preview_resolution(settings: PreviewResolutionSettings):
+    global LIVE_SIZE, preview_resolution
+
+    if picam2 is None:
+        raise HTTPException(status_code=503, detail="Camera not available")
+
+    if settings.resolution not in PREVIEW_RESOLUTIONS:
+        raise HTTPException(status_code=400, detail="Preview resolution must be low or high")
+
+    if get_capture_status()["active"]:
+        raise HTTPException(status_code=409, detail="Cannot change preview resolution during capture")
+
+    with camera_lock:
+        if get_capture_status()["active"]:
+            raise HTTPException(status_code=409, detail="Cannot change preview resolution during capture")
+
+        if settings.resolution != preview_resolution:
+            previous_resolution = preview_resolution
+            current_exposure = get_latest_metadata().get("ExposureTime")
+
+            LIVE_SIZE = PREVIEW_RESOLUTIONS[settings.resolution]
+            try:
+                restore_live_view(current_exposure)
+            except Exception as exc:
+                # Try to recover the working preview configuration on failure.
+                LIVE_SIZE = PREVIEW_RESOLUTIONS[previous_resolution]
+                try:
+                    restore_live_view(current_exposure)
+                except Exception as recovery_error:
+                    raise HTTPException(
+                        status_code=500,
+                        detail=f"Preview change failed: {exc}; recovery failed: {recovery_error}",
+                    ) from exc
+                raise HTTPException(status_code=500, detail=f"Preview change failed: {exc}") from exc
+
+            preview_resolution = settings.resolution
+
+    return {
+        "resolution": preview_resolution,
+        "size": list(LIVE_SIZE),
+        "options": list(PREVIEW_RESOLUTIONS),
+    }
 
 
 @app.get("/api/framerate")
