@@ -1,6 +1,7 @@
 import io
 from collections import deque
 import json
+from math import isfinite
 import os
 import re
 import signal
@@ -133,6 +134,7 @@ capture_status: dict = {
 exposure_auto = True
 exposure_value = 0.0
 manual_exposure_time_us: int | None = None
+manual_analogue_gain: float | None = None
 frame_rate = 15
 white_balance_auto = True
 white_balance_gains: tuple[float, float] | None = None
@@ -145,6 +147,7 @@ ALLOWED_FOV_UNITS = {"µm", "mm", "cm"}
 class ExposureSettings(BaseModel):
     auto: bool
     exposure_time_us: int | None = None
+    analogue_gain: float | None = None
 
 
 class ExposureStep(BaseModel):
@@ -688,10 +691,13 @@ def restore_live_view(current_exposure):
 
     if exposure_auto:
         restore_controls["ExposureValue"] = exposure_value
-    elif manual_exposure_time_us is not None:
-        restore_controls["ExposureTime"] = manual_exposure_time_us
-    elif current_exposure is not None:
-        restore_controls["ExposureTime"] = current_exposure
+    else:
+        if manual_exposure_time_us is not None:
+            restore_controls["ExposureTime"] = manual_exposure_time_us
+        elif current_exposure is not None:
+            restore_controls["ExposureTime"] = current_exposure
+        if manual_analogue_gain is not None:
+            restore_controls["AnalogueGain"] = manual_analogue_gain
 
     if white_balance_auto:
         restore_controls["AwbEnable"] = True
@@ -789,7 +795,11 @@ def take_photo(settings: PhotoSettings):
                 metadata = picam2.capture_metadata()
 
             current_exposure = metadata.get("ExposureTime")
-            current_gain = metadata.get("AnalogueGain")
+            current_gain = (
+                manual_analogue_gain
+                if not exposure_auto and manual_analogue_gain is not None
+                else metadata.get("AnalogueGain")
+            )
             current_colour_gains = metadata.get("ColourGains")
 
             if current_exposure is None:
@@ -824,6 +834,9 @@ def take_photo(settings: PhotoSettings):
                     still_controls["ExposureTime"] = manual_exposure_time_us
                 else:
                     still_controls["ExposureTime"] = current_exposure
+
+                if not exposure_auto and current_gain is not None:
+                    still_controls["AnalogueGain"] = float(current_gain)
 
             if white_balance_auto and current_colour_gains is not None:
                 still_controls["AwbEnable"] = False
@@ -1114,10 +1127,16 @@ def get_exposure():
         raise HTTPException(status_code=503, detail="Camera not available")
 
     metadata = get_latest_metadata()
+    gain_min, gain_max, _ = picam2.camera_controls["AnalogueGain"]
 
     exposure_time_us = metadata.get("ExposureTime")
     if not exposure_auto and manual_exposure_time_us is not None:
         exposure_time_us = manual_exposure_time_us
+    analogue_gain = (
+        manual_analogue_gain
+        if not exposure_auto and manual_analogue_gain is not None
+        else metadata.get("AnalogueGain")
+    )
 
     return {
         "auto": exposure_auto,
@@ -1126,42 +1145,60 @@ def get_exposure():
         "exposure_value_max": EXPOSURE_VALUE_MAX,
         "aeb_stops": AEB_STOPS,
         "exposure_time_us": exposure_time_us,
-        "analogue_gain": metadata.get("AnalogueGain"),
+        "analogue_gain": analogue_gain,
+        "analogue_gain_min": gain_min,
+        "analogue_gain_max": gain_max,
         "digital_gain": metadata.get("DigitalGain"),
     }
 
 
 @app.put("/api/exposure")
 def set_exposure(settings: ExposureSettings):
-    global exposure_auto, manual_exposure_time_us
+    global exposure_auto, manual_exposure_time_us, manual_analogue_gain
 
     if picam2 is None:
         raise HTTPException(status_code=503, detail="Camera not available")
 
-    controls = {
-        "AeEnable": settings.auto,
-    }
-
-    if settings.auto:
-        controls["AeExposureMode"] = get_ae_exposure_mode()
-        controls["ExposureValue"] = exposure_value
-    elif settings.exposure_time_us is not None:
-        exposure_min, exposure_max, _ = picam2.camera_controls["ExposureTime"]
-
-        if not exposure_min <= settings.exposure_time_us <= exposure_max:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Exposure time must be between {exposure_min} and {exposure_max} us",
-            )
-
-        controls["ExposureTime"] = settings.exposure_time_us
-
     with camera_lock:
+        controls = {"AeEnable": settings.auto}
+
+        if settings.auto:
+            controls["AeExposureMode"] = get_ae_exposure_mode()
+            controls["ExposureValue"] = exposure_value
+        else:
+            if settings.exposure_time_us is not None:
+                exposure_min, exposure_max, _ = picam2.camera_controls["ExposureTime"]
+                if not exposure_min <= settings.exposure_time_us <= exposure_max:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Exposure time must be between {exposure_min} and {exposure_max} us",
+                    )
+                controls["ExposureTime"] = settings.exposure_time_us
+
+            if settings.analogue_gain is not None:
+                gain_min, gain_max, _ = picam2.camera_controls["AnalogueGain"]
+                if not isfinite(settings.analogue_gain) or not (
+                    gain_min <= settings.analogue_gain <= gain_max
+                ):
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Analogue gain must be between {gain_min} and {gain_max}",
+                    )
+                controls["AnalogueGain"] = settings.analogue_gain
+            elif exposure_auto:
+                # Freeze the last auto gain when switching to manual exposure.
+                current_gain = get_latest_metadata().get("AnalogueGain")
+                if current_gain is not None:
+                    controls["AnalogueGain"] = float(current_gain)
+
         picam2.set_controls(controls)
         exposure_auto = settings.auto
 
-        if not settings.auto and settings.exposure_time_us is not None:
-            manual_exposure_time_us = settings.exposure_time_us
+        if not settings.auto:
+            if settings.exposure_time_us is not None:
+                manual_exposure_time_us = settings.exposure_time_us
+            if "AnalogueGain" in controls:
+                manual_analogue_gain = float(controls["AnalogueGain"])
 
     return {
         "auto": exposure_auto,
@@ -1174,8 +1211,8 @@ def set_exposure(settings: ExposureSettings):
             if not exposure_auto
             else settings.exposure_time_us
         ),
+        "analogue_gain": manual_analogue_gain if not exposure_auto else None,
     }
-
 
 @app.put("/api/exposure/value")
 def set_exposure_value(settings: ExposureValueSettings):
@@ -1325,10 +1362,14 @@ def set_white_balance(settings: WhiteBalanceSettings):
             picam2.set_controls({
                 "ExposureValue": exposure_value,
             })
-        elif manual_exposure_time_us is not None:
-            picam2.set_controls({
-                "ExposureTime": manual_exposure_time_us,
-            })
+        else:
+            manual_controls = {}
+            if manual_exposure_time_us is not None:
+                manual_controls["ExposureTime"] = manual_exposure_time_us
+            if manual_analogue_gain is not None:
+                manual_controls["AnalogueGain"] = manual_analogue_gain
+            if manual_controls:
+                picam2.set_controls(manual_controls)
 
         picam2.start()
         start_stream_encoder()
