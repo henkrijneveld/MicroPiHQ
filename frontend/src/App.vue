@@ -1000,11 +1000,13 @@ onUnmounted(() => {
           <button type="button" :disabled="language === 'en'" @click="setLanguage('en')">EN</button>
         </div>
 
-        <img
-          class="app-logo"
-          :src="mannetjeUrl"
-          alt="MicroRasp"
-        >
+        <a href="https://henkrijneveld.nl" target="_blank">
+          <img
+            class="app-logo"
+            :src="mannetjeUrl"
+            alt="MicroRasp"
+          >
+        </a>
       </div>
     </header>
 

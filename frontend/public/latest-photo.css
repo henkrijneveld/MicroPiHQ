@@ -67,7 +67,7 @@ button.active-choice:disabled,
 .app-logo {
   display: block;
   width: auto;
-  height: 28px;
+  height: 44px;
   max-width: 48px;
   object-fit: contain;
 }
