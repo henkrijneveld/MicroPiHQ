@@ -979,8 +979,8 @@ onUnmounted(() => {
         {{ t('status.cameraNotConnected') }}<template v-if="status.camera.error"> · {{ status.camera.error }}</template>
       </p>
       <div v-if="status?.camera?.connected" class="preview-flip-controls" role="group" :aria-label="t('preview.flip')">
-      <button type="button" :class="{ 'active-choice': previewFlip.includes('h') }" :aria-pressed="previewFlip.includes('h')" :title="t('preview.flipHorizontal')" @click="togglePreviewFlip('h')">{{ t('preview.horizontal') }}</button>
-      <button type="button" :class="{ 'active-choice': previewFlip.includes('v') }" :aria-pressed="previewFlip.includes('v')" :title="t('preview.flipVertical')" @click="togglePreviewFlip('v')">{{ t('preview.vertical') }}</button>
+        <button type="button" :class="{ 'active-choice': previewFlip.includes('h') }" :aria-pressed="previewFlip.includes('h')" :title="t('preview.flipHorizontal')" @click="togglePreviewFlip('h')">{{ t('preview.horizontal') }}</button>
+        <button type="button" :class="{ 'active-choice': previewFlip.includes('v') }" :aria-pressed="previewFlip.includes('v')" :title="t('preview.flipVertical')" @click="togglePreviewFlip('v')">{{ t('preview.vertical') }}</button>
       </div>
     </section>
 
