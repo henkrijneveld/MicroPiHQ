@@ -81,6 +81,10 @@ function formatExposureTime(exposureTimeUs) {
   return `${Math.round(exposureTimeUs)} µs`
 }
 
+function formatAnalogueGain(gain) {
+  return gain == null ? '—' : Number(gain).toFixed(1)
+}
+
 function formatColourGain(gain) {
   if (gain == null) {
     return '—'
@@ -1011,7 +1015,9 @@ onUnmounted(() => {
           @commit="setManualAnalogueGain"
         />
 
-        <p class="compact-info">{{ t('exposure.shutterSpeed') }}: {{ formatExposureTime(exposure.exposure_time_us) }}</p>
+        <p class="compact-info">
+          {{ t('exposure.shutterSpeed') }}: {{ formatExposureTime(exposure.exposure_time_us) }} · {{ t('exposure.analogue') }} {{ formatAnalogueGain(exposure.analogue_gain) }}
+        </p>
         <p v-if="exposureError" class="error-message">{{ exposureError }}</p>
       </section>
 
