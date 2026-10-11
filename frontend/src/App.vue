@@ -17,6 +17,7 @@ const previewImage = ref(null)
 const pingMs = ref(null)
 
 const exposure = ref(null)
+const exposureError = ref(null)
 const framerate = ref(null)
 const whiteBalance = ref(null)
 const rgbSample = ref(null)
@@ -396,6 +397,36 @@ async function setManualExposureTime(valueMs) {
   }
 }
 
+async function setManualAnalogueGain(gain) {
+  exposureError.value = null
+
+  try {
+    const result = await runCameraControl(async () => {
+      const response = await fetch('/api/exposure', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ auto: false, analogue_gain: gain }),
+      })
+
+      if (!response.ok) {
+        throw new Error(await getResponseError(response))
+      }
+
+      return response.json()
+    })
+
+    exposure.value = {
+      ...exposure.value,
+      ...result,
+      auto: false,
+    }
+  } catch (exc) {
+    exposureError.value = exc.message
+  }
+}
+
 async function loadExposure() {
   if (
     currentPage.value !== 'camera'
@@ -695,6 +726,9 @@ async function setExposureAuto(auto) {
   if (!auto && exposure.value?.exposure_time_us) {
     body.exposure_time_us = exposure.value.exposure_time_us
   }
+  if (!auto && exposure.value?.analogue_gain != null) {
+    body.analogue_gain = exposure.value.analogue_gain
+  }
 
   const result = await runCameraControl(async () => {
     const response = await fetch('/api/exposure', {
@@ -721,7 +755,11 @@ async function setExposureAuto(auto) {
   if (result.exposure_time_us != null) {
     nextExposure.exposure_time_us = result.exposure_time_us
   }
+  if (result.analogue_gain != null) {
+    nextExposure.analogue_gain = result.analogue_gain
+  }
 
+  exposureError.value = null
   exposure.value = nextExposure
 }
 
@@ -969,9 +1007,23 @@ onUnmounted(() => {
           @commit="setManualExposureTime"
         />
 
+        <p class="compact-info">{{ t('exposure.analogueGain') }}</p>
+        <NumberStepper
+          :model-value="exposure.analogue_gain ?? exposure.analogue_gain_min ?? 1"
+          :step="0.1"
+          :inner-step="0.1"
+          :outer-step="1"
+          :min="exposure.analogue_gain_min ?? 1"
+          :max="exposure.analogue_gain_max ?? 16"
+          suffix="×"
+          :disabled="cameraControlBusy || photoBusy || exposure.auto"
+          @commit="setManualAnalogueGain"
+        />
+
         <p class="compact-info">
           {{ formatExposureTime(exposure.exposure_time_us) }} · {{ t('exposure.analogue') }} {{ formatDigitalGain(exposure.analogue_gain) }} · {{ t('exposure.digital') }} {{ formatDigitalGain(exposure.digital_gain) }}
         </p>
+        <p v-if="exposureError" class="error-message">{{ exposureError }}</p>
       </section>
 
       <section v-if="whiteBalance" id="white-balance-panel" class="ui-panel">
