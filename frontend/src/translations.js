@@ -82,6 +82,7 @@ export const translations = {
 
     'exposure.title': 'Belichting',
     'exposure.analogue': 'Analoog',
+    'exposure.analogueGain': 'Analoge versterking',
     'exposure.digital': 'Digitaal',
 
     'whiteBalance.title': 'Witbalans',
@@ -171,6 +172,7 @@ export const translations = {
 
     'exposure.title': 'Exposure',
     'exposure.analogue': 'Analogue',
+    'exposure.analogueGain': 'Analogue gain',
     'exposure.digital': 'Digital',
 
     'whiteBalance.title': 'White balance',
