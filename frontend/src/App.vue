@@ -45,6 +45,9 @@ const pingMs = ref(null)
 const exposure = ref(null)
 const exposureError = ref(null)
 const framerate = ref(null)
+const previewResolution = ref(null)
+const previewResolutionError = ref(null)
+const previewStreamVersion = ref(0)
 const whiteBalance = ref(null)
 const rgbSample = ref(null)
 const saturation = ref(null)
@@ -481,6 +484,45 @@ async function loadExposure() {
   exposure.value = result
 }
 
+async function loadPreviewResolution() {
+  if (
+    currentPage.value !== 'camera'
+    || photoBusy.value
+    || cameraControlBusy.value
+    || shuttingDown.value
+    || !status.value?.camera?.connected
+  ) return
+
+  const response = await fetch('/api/preview/resolution')
+  if (!response.ok) throw new Error(await getResponseError(response))
+  previewResolution.value = await response.json()
+}
+
+async function setPreviewResolution(resolution, select) {
+  const previous = previewResolution.value?.resolution
+  if (!previous || resolution === previous) return
+
+  previewResolutionError.value = null
+  try {
+    const result = await runCameraControl(async () => {
+      const response = await fetch('/api/preview/resolution', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resolution }),
+      })
+      if (!response.ok) throw new Error(await getResponseError(response))
+      return response.json()
+    })
+
+    previewResolution.value = result
+    // Reconnect the current MJPEG image after camera reconfiguration.
+    previewStreamVersion.value += 1
+  } catch (exc) {
+    previewResolutionError.value = exc.message
+    if (select) select.value = previous
+  }
+}
+
 async function loadFramerate() {
   if (
     currentPage.value !== 'camera'
@@ -833,6 +875,7 @@ async function loadCameraPage() {
     if (status.value.camera.connected) {
       await loadExposure()
       await loadFramerate()
+      await loadPreviewResolution()
       await loadWhiteBalance()
       await loadSaturation()
       startCameraPolling()
@@ -882,7 +925,7 @@ onUnmounted(() => {
       <img v-if="status?.camera?.connected" class="liveview-image"
         :class="'liveview-' + liveviewMode"
         :style="{ transform: `translate(calc(-50% + ${liveviewOffset.x}px), calc(-50% + ${liveviewOffset.y}px)) scale(${previewFlip.includes('h') ? -1 : 1}, ${previewFlip.includes('v') ? -1 : 1})` }"
-        :src="'/api/stream'" :alt="t('aria.liveCameraImage')" draggable="false">
+        :src="`/api/stream?view=${previewStreamVersion}`" :alt="t('aria.liveCameraImage')" draggable="false">
       <p v-else class="liveview-error">{{ status?.camera?.error || t('status.cameraNotConnected') }}</p>
     </div>
     <div v-if="status?.camera?.connected" class="preview-flip-controls" role="group" :aria-label="t('preview.flip')">
@@ -972,7 +1015,7 @@ onUnmounted(() => {
         v-if="status?.camera?.connected"
         ref="previewImage"
         :style="{ '--preview-flip-x': previewFlip.includes('h') ? -1 : 1, '--preview-flip-y': previewFlip.includes('v') ? -1 : 1 }"
-        :src="'/api/stream'"
+        :src="`/api/stream?view=${previewStreamVersion}`"
         :alt="t('aria.liveCameraImage')"
       >
       <p v-else-if="status && !status.camera.connected">
@@ -998,7 +1041,21 @@ onUnmounted(() => {
           >
             {{ fps }} fps
           </button>
+          <select
+            v-if="previewResolution"
+            class="preview-resolution-select"
+            :value="previewResolution.resolution"
+            :disabled="cameraControlBusy || photoBusy || shuttingDown"
+            :aria-label="t('preview.resolution')"
+            :title="t('preview.resolution')"
+            @change="setPreviewResolution($event.target.value, $event.target)"
+          >
+            <option v-for="option in previewResolution.options" :key="option" :value="option">
+              {{ t('preview.' + option) }}
+            </option>
+          </select>
         </div>
+        <p v-if="previewResolutionError" class="error-message compact-info">{{ previewResolutionError }}</p>
       </section>
 
       <section v-if="exposure" id="exposure-panel" class="ui-panel">
