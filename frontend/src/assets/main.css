@@ -395,12 +395,23 @@ a {
   border: 1px solid #aaa;
 }
 
-/* Compact preview resolution selector beside the fps controls. */
-#frame-rate-panel .preview-resolution-select {
+/* FPS and resolution share a single compact row of labelled controls. */
+#frame-rate-panel .frame-rate-groups {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+#frame-rate-panel .frame-rate-group {
   min-width: 0;
-  max-width: 132px;
-  min-height: 28px;
-  padding: 2px 1px;
-  font: inherit;
-  font-size: 0.82rem;
+}
+
+#frame-rate-panel .button-row {
+  gap: 3px;
+}
+
+#frame-rate-panel .button-row button {
+  min-width: 0;
+  padding-inline: 4px;
+  font-size: 0.88rem;
 }
