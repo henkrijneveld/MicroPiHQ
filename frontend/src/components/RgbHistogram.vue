@@ -20,18 +20,11 @@ const SAMPLE_WIDTH = 160
 const SAMPLE_HEIGHT = 120
 const HISTOGRAM_WIDTH = 256
 const HISTOGRAM_HEIGHT = 96
-const STREAM_TIMEOUT_MS = 600
 
 let sampleCanvas = null
 let sampleContext = null
 let histogramTimer = null
-let histogramAbortController = null
-let histogramReader = null
-let histogramBytes = new Uint8Array(0)
-let latestJpegBytes = null
-let streamTimeout = null
 let stopped = false
-let useLivePreviewFallback = false
 
 function drawChannel(context, bins, maximum, fillStyle, strokeStyle) {
   context.beginPath()
@@ -65,111 +58,6 @@ function drawChannel(context, bins, maximum, fillStyle, strokeStyle) {
   context.strokeStyle = strokeStyle
   context.lineWidth = 1
   context.stroke()
-}
-
-function findJpegRange(bytes) {
-  let start = -1
-
-  for (let index = 0; index < bytes.length - 1; index += 1) {
-    if (start < 0 && bytes[index] === 0xff && bytes[index + 1] === 0xd8) {
-      start = index
-      index += 1
-      continue
-    }
-
-    if (
-      start >= 0
-      && bytes[index] === 0xff
-      && bytes[index + 1] === 0xd9
-    ) {
-      return [start, index + 2]
-    }
-  }
-
-  return null
-}
-
-function appendBytes(current, next) {
-  const combined = new Uint8Array(current.length + next.length)
-  combined.set(current)
-  combined.set(next, current.length)
-  return combined
-}
-
-function consumeJpegFrames() {
-  while (true) {
-    const range = findJpegRange(histogramBytes)
-
-    if (!range) {
-      break
-    }
-
-    const [start, end] = range
-    latestJpegBytes = histogramBytes.slice(start, end)
-    histogramBytes = histogramBytes.slice(end)
-
-    if (streamTimeout) {
-      clearTimeout(streamTimeout)
-      streamTimeout = null
-    }
-  }
-
-  if (histogramBytes.length > 2 * 1024 * 1024) {
-    histogramBytes = new Uint8Array(0)
-  }
-}
-
-async function readHistogramStream() {
-  try {
-    histogramAbortController = new AbortController()
-
-    streamTimeout = setTimeout(() => {
-      useLivePreviewFallback = true
-      histogramAbortController?.abort()
-    }, STREAM_TIMEOUT_MS)
-
-    const response = await fetch(`/api/stream?histogram=${Date.now()}`, {
-      cache: 'no-store',
-      signal: histogramAbortController.signal,
-    })
-
-    if (!response.ok || !response.body) {
-      throw new Error(`HTTP ${response.status}`)
-    }
-
-    histogramReader = response.body.getReader()
-
-    while (!stopped && !useLivePreviewFallback) {
-      const { done, value } = await histogramReader.read()
-
-      if (done) {
-        break
-      }
-
-      histogramBytes = appendBytes(histogramBytes, value)
-      consumeJpegFrames()
-    }
-  } catch (_) {
-    if (!stopped) {
-      useLivePreviewFallback = true
-    }
-  } finally {
-    if (streamTimeout) {
-      clearTimeout(streamTimeout)
-      streamTimeout = null
-    }
-
-    if (histogramReader) {
-      try {
-        await histogramReader.cancel()
-      } catch (_) {
-        // De browser of server kan de stream al gesloten hebben.
-      }
-    }
-
-    histogramReader = null
-    histogramAbortController = null
-  }
 }
 
 function drawHistogramFromPixels(pixels) {
@@ -251,51 +139,16 @@ function drawFromLivePreview() {
   }
 }
 
-function loadJpegImage(blob) {
-  return new Promise((resolve, reject) => {
-    const image = new Image()
-    const objectUrl = URL.createObjectURL(blob)
-
-    image.onload = () => resolve({ image, objectUrl })
-    image.onerror = () => {
-      URL.revokeObjectURL(objectUrl)
-      reject(new Error(t('errors.jpegDecode')))
-    }
-    image.src = objectUrl
-  })
-}
-
-async function updateHistogram() {
+function updateHistogram() {
   if (stopped || !sampleContext) {
     return
   }
 
-  try {
-    if (useLivePreviewFallback) {
-      drawFromLivePreview()
-      return
-    }
+  // Reuse the image already displayed by the browser; no second MJPEG connection.
+  drawFromLivePreview()
 
-    if (!latestJpegBytes) {
-      return
-    }
-
-    const blob = new Blob([latestJpegBytes], { type: 'image/jpeg' })
-    const { image, objectUrl } = await loadJpegImage(blob)
-
-    try {
-      drawHistogramFromImage(image)
-    } finally {
-      URL.revokeObjectURL(objectUrl)
-    }
-  } catch (_) {
-    if (!stopped) {
-      drawFromLivePreview()
-    }
-  } finally {
-    if (!stopped) {
-      histogramTimer = setTimeout(updateHistogram, props.intervalMs)
-    }
+  if (!stopped) {
+    histogramTimer = setTimeout(updateHistogram, props.intervalMs)
   }
 }
 
@@ -306,11 +159,6 @@ onMounted(() => {
   sampleContext = sampleCanvas.getContext('2d', { willReadFrequently: true })
 
   stopped = false
-  useLivePreviewFallback = false
-  histogramBytes = new Uint8Array(0)
-  latestJpegBytes = null
-
-  readHistogramStream()
   updateHistogram()
 })
 
@@ -322,19 +170,6 @@ onUnmounted(() => {
     histogramTimer = null
   }
 
-  if (streamTimeout) {
-    clearTimeout(streamTimeout)
-    streamTimeout = null
-  }
-
-  if (histogramAbortController) {
-    histogramAbortController.abort()
-  }
-
-  histogramReader = null
-  histogramAbortController = null
-  histogramBytes = new Uint8Array(0)
-  latestJpegBytes = null
   sampleCanvas = null
   sampleContext = null
 })
