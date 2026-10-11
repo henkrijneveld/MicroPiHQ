@@ -81,14 +81,6 @@ function formatExposureTime(exposureTimeUs) {
   return `${Math.round(exposureTimeUs)} µs`
 }
 
-function formatDigitalGain(gain) {
-  if (gain == null) {
-    return '—'
-  }
-
-  return Number(gain).toFixed(1)
-}
-
 function formatColourGain(gain) {
   if (gain == null) {
     return '—'
@@ -966,7 +958,6 @@ onUnmounted(() => {
             {{ fps }} fps
           </button>
         </div>
-        <p class="compact-info">{{ t('frameRate.current') }}: {{ framerate.fps }} fps</p>
       </section>
 
       <section v-if="exposure" id="exposure-panel" class="ui-panel">
@@ -1020,9 +1011,7 @@ onUnmounted(() => {
           @commit="setManualAnalogueGain"
         />
 
-        <p class="compact-info">
-          {{ formatExposureTime(exposure.exposure_time_us) }} · {{ t('exposure.analogue') }} {{ formatDigitalGain(exposure.analogue_gain) }} · {{ t('exposure.digital') }} {{ formatDigitalGain(exposure.digital_gain) }}
-        </p>
+        <p class="compact-info">{{ t('exposure.shutterSpeed') }}: {{ formatExposureTime(exposure.exposure_time_us) }}</p>
         <p v-if="exposureError" class="error-message">{{ exposureError }}</p>
       </section>
 
