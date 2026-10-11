@@ -1002,7 +1002,6 @@ onUnmounted(() => {
           @commit="setManualExposureTime"
         />
 
-        <p class="compact-info">{{ t('exposure.analogueGain') }}</p>
         <NumberStepper
           :model-value="exposure.analogue_gain ?? exposure.analogue_gain_min ?? 1"
           :step="0.1"
