@@ -971,16 +971,18 @@ onUnmounted(() => {
       <img
         v-if="status?.camera?.connected"
         ref="previewImage"
-        :style="{ transform: `scale(${previewFlip.includes('h') ? -1 : 1}, ${previewFlip.includes('v') ? -1 : 1})` }"
+        :style="{ '--preview-flip-x': previewFlip.includes('h') ? -1 : 1, '--preview-flip-y': previewFlip.includes('v') ? -1 : 1 }"
         :src="'/api/stream'"
         :alt="t('aria.liveCameraImage')"
       >
       <p v-else-if="status && !status.camera.connected">
         {{ t('status.cameraNotConnected') }}<template v-if="status.camera.error"> · {{ status.camera.error }}</template>
       </p>
-      <div v-if="status?.camera?.connected" class="preview-flip-controls" role="group" :aria-label="t('preview.flip')">
-        <button type="button" :class="{ 'active-choice': previewFlip.includes('h') }" :aria-pressed="previewFlip.includes('h')" :title="t('preview.flipHorizontal')" @click="togglePreviewFlip('h')">{{ t('preview.horizontal') }}</button>
-        <button type="button" :class="{ 'active-choice': previewFlip.includes('v') }" :aria-pressed="previewFlip.includes('v')" :title="t('preview.flipVertical')" @click="togglePreviewFlip('v')">{{ t('preview.vertical') }}</button>
+      <div v-if="status?.camera?.connected" class="preview-display-controls">
+        <div class="preview-flip-controls" role="group" :aria-label="t('preview.flip')">
+          <button type="button" :aria-pressed="previewFlip.includes('h')" :title="t('preview.flipHorizontal')" @click="togglePreviewFlip('h')">{{ t('preview.horizontal') }}</button>
+          <button type="button" :aria-pressed="previewFlip.includes('v')" :title="t('preview.flipVertical')" @click="togglePreviewFlip('v')">{{ t('preview.vertical') }}</button>
+        </div>
       </div>
     </section>
 
