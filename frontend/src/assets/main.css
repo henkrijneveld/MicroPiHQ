@@ -394,3 +394,13 @@ a {
   background: #fff;
   border: 1px solid #aaa;
 }
+
+/* Compact preview resolution selector beside the fps controls. */
+#frame-rate-panel .preview-resolution-select {
+  min-width: 0;
+  max-width: 132px;
+  min-height: 28px;
+  padding: 2px 1px;
+  font: inherit;
+  font-size: 0.82rem;
+}
