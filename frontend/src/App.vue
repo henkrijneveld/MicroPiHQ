@@ -498,9 +498,8 @@ async function loadPreviewResolution() {
   previewResolution.value = await response.json()
 }
 
-async function setPreviewResolution(resolution, select) {
-  const previous = previewResolution.value?.resolution
-  if (!previous || resolution === previous) return
+async function setPreviewResolution(resolution) {
+  if (!previewResolution.value || resolution === previewResolution.value.resolution) return
 
   previewResolutionError.value = null
   try {
@@ -519,7 +518,6 @@ async function setPreviewResolution(resolution, select) {
     previewStreamVersion.value += 1
   } catch (exc) {
     previewResolutionError.value = exc.message
-    if (select) select.value = previous
   }
 }
 
@@ -1031,29 +1029,34 @@ onUnmounted(() => {
 
     <aside id="controls-panel" :aria-label="t('aria.cameraSettings')">
       <section v-if="framerate" id="frame-rate-panel" class="ui-panel">
-        <h2>{{ t('frameRate.title') }}</h2>
-        <div class="button-row">
-          <button
-            v-for="fps in framerate.options"
-            :key="fps"
-            :disabled="cameraControlBusy || photoBusy || framerate.fps === fps"
-            @click="setFramerate(fps)"
-          >
-            {{ fps }} fps
-          </button>
-          <select
-            v-if="previewResolution"
-            class="preview-resolution-select"
-            :value="previewResolution.resolution"
-            :disabled="cameraControlBusy || photoBusy || shuttingDown"
-            :aria-label="t('preview.resolution')"
-            :title="t('preview.resolution')"
-            @change="setPreviewResolution($event.target.value, $event.target)"
-          >
-            <option v-for="option in previewResolution.options" :key="option" :value="option">
-              {{ t('preview.' + option) }}
-            </option>
-          </select>
+        <div class="frame-rate-groups">
+          <div class="frame-rate-group">
+            <h2>{{ t('frameRate.title') }}</h2>
+            <div class="button-row">
+              <button
+                v-for="fps in framerate.options"
+                :key="fps"
+                :disabled="cameraControlBusy || photoBusy || framerate.fps === fps"
+                @click="setFramerate(fps)"
+              >
+                {{ fps }} fps
+              </button>
+            </div>
+          </div>
+          <div v-if="previewResolution" class="frame-rate-group">
+            <h2>{{ t('preview.resolution') }}</h2>
+            <div class="button-row">
+              <button
+                v-for="option in previewResolution.options"
+                :key="option"
+                :disabled="cameraControlBusy || photoBusy || shuttingDown || previewResolution.resolution === option"
+                :aria-pressed="previewResolution.resolution === option"
+                @click="setPreviewResolution(option)"
+              >
+                {{ t('preview.' + option) }}
+              </button>
+            </div>
+          </div>
         </div>
         <p v-if="previewResolutionError" class="error-message compact-info">{{ previewResolutionError }}</p>
       </section>
