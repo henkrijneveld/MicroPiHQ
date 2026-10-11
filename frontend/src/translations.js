@@ -81,6 +81,7 @@ export const translations = {
 
     'exposure.title': 'Belichting',
     'exposure.shutterSpeed': 'Sluitertijd',
+    'exposure.analogue': 'Analoog',
     'exposure.analogueGain': 'Analoge versterking',
 
     'whiteBalance.title': 'Witbalans',
@@ -169,6 +170,7 @@ export const translations = {
 
     'exposure.title': 'Exposure',
     'exposure.shutterSpeed': 'Shutter speed',
+    'exposure.analogue': 'Analogue',
     'exposure.analogueGain': 'Analogue gain',
 
     'whiteBalance.title': 'White balance',
