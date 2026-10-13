@@ -90,6 +90,7 @@ export const translations = {
     'exposure.title': 'Belichting',
     'exposure.shutterSpeed': 'Sluitertijd',
     'exposure.analogue': 'Analoog',
+    'exposure.digital': 'Digitaal',
     'exposure.analogueGain': 'Analoge versterking',
 
     'whiteBalance.title': 'Witbalans',
@@ -185,8 +186,9 @@ export const translations = {
     'preview.high': 'High',
 
     'exposure.title': 'Exposure',
-    'exposure.shutterSpeed': 'Shutter speed',
+    'exposure.shutterSpeed': 'Shutter',
     'exposure.analogue': 'Analogue',
+    'exposure.digital': 'Digital',
     'exposure.analogueGain': 'Analogue gain',
 
     'whiteBalance.title': 'White balance',
