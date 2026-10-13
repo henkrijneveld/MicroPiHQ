@@ -114,6 +114,10 @@ function formatAnalogueGain(gain) {
   return gain == null ? '—' : Number(gain).toFixed(1)
 }
 
+function formatDigitalGain(gain) {
+  return gain == null ? '—' : Number(gain).toFixed(2)
+}
+
 function formatColourGain(gain) {
   if (gain == null) {
     return '—'
@@ -1114,7 +1118,7 @@ onUnmounted(() => {
         />
 
         <p class="compact-info">
-          {{ t('exposure.shutterSpeed') }}: {{ formatExposureTime(exposure.exposure_time_us) }} · {{ t('exposure.analogue') }} {{ formatAnalogueGain(exposure.analogue_gain) }}
+          {{ t('exposure.shutterSpeed') }}: {{ formatExposureTime(exposure.exposure_time_us) }} · {{ t('exposure.analogue') }} {{ formatAnalogueGain(exposure.analogue_gain) }} · {{ t('exposure.digital') }} {{ formatDigitalGain(exposure.digital_gain) }}
         </p>
         <p v-if="exposureError" class="error-message">{{ exposureError }}</p>
       </section>
