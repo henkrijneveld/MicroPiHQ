@@ -784,10 +784,9 @@ async function setFramerate(fps) {
   framerate.value = result
 }
 
-async function setExposureAuto(auto) {
-  const body = {
-    auto,
-  }
+async function setExposureMode(mode) {
+  const auto = mode !== 'manual'
+  const body = { auto, mode }
 
   if (!auto && exposure.value?.exposure_time_us) {
     body.exposure_time_us = exposure.value.exposure_time_us
@@ -796,37 +795,31 @@ async function setExposureAuto(auto) {
     body.analogue_gain = exposure.value.analogue_gain
   }
 
-  const result = await runCameraControl(async () => {
-    const response = await fetch('/api/exposure', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+  exposureError.value = null
+  try {
+    const result = await runCameraControl(async () => {
+      const response = await fetch('/api/exposure', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      if (!response.ok) throw new Error(await getResponseError(response))
+      return response.json()
     })
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
+    const nextExposure = { ...exposure.value, ...result }
+    if (result.exposure_time_us == null) {
+      nextExposure.exposure_time_us = exposure.value?.exposure_time_us
+    }
+    if (result.analogue_gain == null) {
+      nextExposure.analogue_gain = exposure.value?.analogue_gain
     }
 
-    return response.json()
-  })
-
-  const nextExposure = {
-    ...exposure.value,
-    auto: result.auto,
-    exposure_value: result.exposure_value,
+    exposure.value = nextExposure
+  } catch (exc) {
+    exposureError.value = exc.message
   }
-
-  if (result.exposure_time_us != null) {
-    nextExposure.exposure_time_us = result.exposure_time_us
-  }
-  if (result.analogue_gain != null) {
-    nextExposure.analogue_gain = result.analogue_gain
-  }
-
-  exposureError.value = null
-  exposure.value = nextExposure
 }
 
 async function shutdownPi() {
@@ -1071,14 +1064,20 @@ onUnmounted(() => {
         <h2>{{ t('exposure.title') }}</h2>
         <div class="button-row">
           <button
-            :disabled="cameraControlBusy || photoBusy || exposure.auto"
-            @click="setExposureAuto(true)"
+            :disabled="cameraControlBusy || photoBusy || exposure.mode === 'auto'"
+            @click="setExposureMode('auto')"
           >
             {{ t('common.auto') }}
           </button>
           <button
-            :disabled="cameraControlBusy || photoBusy || !exposure.auto"
-            @click="setExposureAuto(false)"
+            :disabled="cameraControlBusy || photoBusy || exposure.mode === 'auto_1x'"
+            @click="setExposureMode('auto_1x')"
+          >
+            {{ t('exposure.auto1x') }}
+          </button>
+          <button
+            :disabled="cameraControlBusy || photoBusy || exposure.mode === 'manual'"
+            @click="setExposureMode('manual')"
           >
             {{ t('common.manual') }}
           </button>
