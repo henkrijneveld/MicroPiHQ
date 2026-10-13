@@ -5,7 +5,7 @@
 
 # Microscope-Picam2
 
-Package for using the HQ camera and a Raspberry Pi, specifically with a microscope. This is a new version of Microscope-Picam, now based on libcamera and Picamera2. The aim is to take photographs; video is not supported.
+Package for using the HQ camera and a Raspberry Pi, specifically with a microscope or for macrophotography. This is a new version of Microscope-Picam, now based on libcamera and Picamera2. The aim is to take photographs; video is supported in preview mode.
 
 <a href="pictures/tabblad-camera.jpg">
   <img src="pictures/tabblad-camera.jpg" width="650" alt="Camera interface">
