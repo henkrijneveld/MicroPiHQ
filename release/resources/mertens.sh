@@ -116,7 +116,10 @@ process_series() {
 
     # google AI recommendation: not the layer but the contrast
     # for microscop it also advicews the --hard-mask flag. But it seems not OK for me
-    enfuse --verbose=1 --exposure-weight=0.3 --contrast-weight=1.0 --saturation-weight=0.5 --contrast-window-size=5 -o "$tif" "${inputs[@]}" \
+#    enfuse --verbose=1 --exposure-weight=0.3 --contrast-weight=1.0 --saturation-weight=0.5 --contrast-window-size=5 -o "$tif" "${inputs[@]}" \
+#        2> >(filter_enfuse_output >&2)
+    enfuse --verbose=1 --exposure-weight=1.5 --exposure-width=0.12 --exposure-optimum=0.4 --contrast-weight=0.3 --saturation-weight=0.5 --contrast-window-size=5 \
+        -o "$tif" "${inputs[@]}" \
         2> >(filter_enfuse_output >&2)
 
     "$IMAGEMAGICK" "$tif" "$jpg"
