@@ -4,8 +4,8 @@
 
 Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een microscoop of voor macro-opnames. Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. Het doel is het maken en opslaan van foto's, video wordt ondersteund voor preview maar niet om op te slaan.
 
-<a href="Pictures/scherm-1.jpg">
-  <img src="Pictures/scherm-1.jpg" width="650" alt="Camera-interface">
+<a href="pictures/scherm-1.jpg">
+  <img src="pictures/scherm-1.jpg" width="650" alt="Camera-interface">
 </a>
 
 *De gebruikersinterface*
