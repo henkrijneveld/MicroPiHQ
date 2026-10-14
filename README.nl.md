@@ -20,8 +20,8 @@ de nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket is gevibecode in a
 
 De basissoftware was gereed in een week. Een distributeerbaar product duurde nog eens 10x zo lang.
 
-<a href="Pictures/verbinding.jpg">
-  <img src="Pictures/verbinding.jpg" width="650" alt="Camera-bevestiging">
+<a href="pictures/verbinding.jpg">
+  <img src="pictures/verbinding.jpg" width="650" alt="Camera-bevestiging">
 </a>
 
 *De cmount verbinding met de reductielens. Er is gebruik gemaakt van het standaard acryl plaatje zodat camera en Pi een geheel vormen*
@@ -78,8 +78,8 @@ Tenslotte de tab "Stop Pi". Dit geeft de Pi een shutdown signaal waardoor de ver
 
 Rechtsboven een taalinstelling: NL of EN
 
-<a href="Pictures/scherm-3.jpg">
-  <img src="Pictures/scherm-3.jpg" width="650" alt="Camera-tab">
+<a href="pictures/scherm-3.jpg">
+  <img src="pictures/scherm-3.jpg" width="650" alt="Camera-tab">
 </a>
 
 *De tab met de laatste genomen foto's* 
@@ -96,8 +96,8 @@ Bestandsnaam is YYMMDD-HHMMSS-[ingevulde naam].jpg
 
 Bestandsnaam is YYMMDD-HHMMSS-[ingevulde naam]-AEB-[stops].jpg
 
-<a href="Pictures/dynosaurus.jpg">
-  <img src="Pictures/dynosaurus.jpg" width="650" alt="Camera-dino">
+<a href="pictures/dynosaurus.jpg">
+  <img src="pictures/dynosaurus.jpg" width="650" alt="Camera-dino">
 </a>
 
 *Foto van een dynosaurus bot*
@@ -144,14 +144,14 @@ Ik accepteer geen pull requests. In deze AI tijd los ik deze zelf op om ook de c
 
 ## Effect van HDR
 
-<a href="Pictures/hanger-tektiet-contrast.jpg">
-  <img src="Pictures/hanger-tektiet-contrast.jpg" width="650" alt="Camera-hanger">
+<a href="pictures/hanger-tektiet-contrast.jpg">
+  <img src="pictures/hanger-tektiet-contrast.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *Foto van tektiet gebaseerd op vijf brackets*
 
-<a href="Pictures/hanger-tektiet-AEB-0.jpg">
-  <img src="Pictures/hanger-tektiet-AEB-0.jpg" width="650" alt="Camera-hanger">
+<a href="pictures/hanger-tektiet-AEB-0.jpg">
+  <img src="pictures/hanger-tektiet-AEB-0.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *Zelfde foto, maar nu als enkele opname. Er is in het zwart veel minder detail zichtbaar*
@@ -163,14 +163,14 @@ Met name het voorste takje, het detail in het scharnier, en de soldering. Dit is
 een afbeelding die alles in een enkele keer goed laat zien. Het is een detail van een broche met daarin vier verbindingen:
 goudsoldeer, lood-tinsoldeer, lijm en een klinknagelverbinding.
 
-<a href="Pictures/takje-lood-goud.jpg">
-  <img src="Pictures/takje-lood-goud.jpg" width="650" alt="Camera-hanger">
+<a href="pictures/takje-lood-goud.jpg">
+  <img src="pictures/takje-lood-goud.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *De gestackte HDR versie*
 
-<a href="Pictures/takje-lood-goud-geenstack-geenHDR.jpg">
-  <img src="Pictures/takje-lood-goud-geenstack-geenHDR.jpg" width="650" alt="Camera-hanger">
+<a href="pictures/takje-lood-goud-geenstack-geenHDR.jpg">
+  <img src="pictures/takje-lood-goud-geenstack-geenHDR.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *Een enkele foto scherpgesteld op het midden.*
