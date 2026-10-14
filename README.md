@@ -1,91 +1,85 @@
 [English](README.md) | [Nederlands](README.nl.md)
 
->[!NOTE]
->The English version of the Readme is AI-translated from the original Dutch one.
+> [!NOTE]
+> This README is automatically translated from the original Dutch version, [README.nl.md](README.nl.md). The Dutch version is the source document.
 
-# Microscope-Picam2
+# MicroRasp (Microscope-Picam2)
 
-Package for using the HQ camera and a Raspberry Pi, specifically with a microscope or for macrophotography. This is a new version of Microscope-Picam, now based on libcamera and Picamera2. The aim is to take photographs; video is supported in preview mode.
+A package for using the Raspberry Pi HQ Camera with a Raspberry Pi, specifically for microscopy or macro photography. This is a new version of Microscope-Picam, now based on libcamera and Picamera2. The goal is to take and save photographs. Video is supported for the preview, but not for recording.
 
-<a href="pictures/tabblad-camera.jpg">
-  <img src="pictures/tabblad-camera.jpg" width="650" alt="Camera interface">
+<a href="pictures/scherm-1.jpg">
+  <img src="pictures/scherm-1.jpg" width="650" alt="Camera interface">
 </a>
 
 *The user interface*
 
-# Background
+# Technical
 
-I am a gemologist and a software developer. Because I have several microscopes, I was looking for a solution that would allow me to equip all of them with, above all, a lightweight camera. Support for HDR and focus stacks was also necessary. The Pi + HQ hardware is (was?) cheaper, more flexible and lighter than a DSLR. And because I have four Pi/HQ setups, each microscope has its own permanent installation. To my surprise, there was no package for the Pi that offered this with the features I wanted. Five years ago I built something similar, but that is no longer supported by the newer OS. In 2021 I programmed everything myself; this package was vibe-coded in pleasant collaboration with ChatGPT 5.6 Sol.
+The Pi and camera are connected via C-mount to the microscope's reduction lens or an objective. Communication is over Wi-Fi. The Pi only needs a power cable. The software works from the Pi 3B onwards; operation has actually been tested on the Pi 3B+ and Pi 4. A small web server runs on the Pi so that the camera can be controlled through a browser on the network. The software is intended for local use only, so there is no access protection. Anyone who can reach the Pi over the network can use the software.
 
-The basic software was ready in a week. Turning it into a distributable product took another 10 times as long.
+The easiest way to access the files on the Pi is through an SFTP connection. Of course, it is also possible to enable the Pi's desktop. The terminal can be used as well.
 
 <a href="pictures/verbinding.jpg">
   <img src="pictures/verbinding.jpg" width="650" alt="Camera mount">
 </a>
 
-*The C-mount connection with the reduction lens. The standard acrylic plate was used so that the camera and Pi form a single unit.*
-
-# Technical
-
-The Pi and camera are connected to the microscope through C-mount. Communication is via Wi-Fi. Only a power cable is required. The software works on a Pi 3B or newer; operation has actually been tested on the Pi 3B+ and Pi 4. A small web server runs on the Pi, allowing the camera to be controlled from a browser on the network.
-
-The files can most easily be accessed from the Pi through an SFTP connection. It is of course also possible to enable the desktop on the Pi. The terminal can also be used.
+*The C-mount connection to the reduction lens. The standard acrylic plate was used so that the camera and Pi form a single unit.*
 
 # Installation
 
-Installation assumes that the latest version of Trixie is installed on the SD card. This can be either the Lite version or the desktop version, although the latter soon becomes rather heavy for a Pi 3B+. The HQ camera must also be connected and tested with rpicam-still.
+Installation assumes that the latest version of Trixie has been installed on the SD card. This can be either the Lite version or the desktop version, although the latter quickly becomes rather demanding for a Pi 3B+. The HQ Camera must also be connected and tested with rpicam-still.
 
-Download the ZIP from the latest release (right column on github), unzip it into a directory on the Pi and run the install.sh script. At the end, the installation is checked. If there are problems, the check-installation.sh script can be run; this tests whether all required components are present.
+Download the ZIP file (microrasp.zip) from the latest release (in the right-hand column on GitHub), extract it into a directory on the Pi, and run the *install.sh* script. The installation is checked at the end. If you encounter problems, run *check-installation.sh*, which checks that all required components are available.
 
-Photo files are stored in the photos directory under the installation directory. I have deliberately not made this configurable in order to keep things unambiguous.
+Photographs are stored in the photos directory inside the installation. I have deliberately not made this configurable, to keep things as straightforward as possible.
 
-*The camera can be reached at: http://address-of-the-pi:8000*
+*The camera can be accessed at: http://address-of-the-Pi:8000*
 
-The host accessing the camera must be able to reach the Pi on port 8000.
+The device accessing the camera must be able to reach the Pi on port 8000.
 
-The installation script installs a service so that the web server starts when the Pi boots. If this is not wanted, it can be disabled with the disable-autostart.sh script. The enable-autostart.sh script enables it again. There are also start and stop scripts for starting and stopping the web server separately.
+The installation script installs a service so that the web server starts when the Pi boots. If this is not wanted, it can be disabled with *disable-autostart.sh* and enabled again with *enable-autostart.sh*. There are also start and stop scripts for starting and stopping the web server separately.
 
-Before removing the software, first run the uninstall.sh script. The directory can then be removed. Software packages installed by the installer are not removed by uninstall.sh.
+Before removing the software, first run *uninstall.sh*. The directory can then be deleted. Software packages installed during installation are not removed by *uninstall.sh*.
 
-To upgrade, download the new version, unzip it over the existing installation, and then run the install script again.
+To upgrade, download the new version, extract it over the existing installation, and run the installation script again.
 
 # Features
 
 Regular photographs
 
-Standard bracketed photographs, either three exposures at -1.5 EV, 0 and +1.5 EV, or five exposures at -3 EV, -1.5 EV, 0, +1.5 EV and +3 EV. The step size can be changed in .env.local.
+Standard bracketed exposures: either three frames at -1.5 EV, 0 and +1.5 EV, or five frames at -3 EV, -1.5 EV, 0, +1.5 EV and +3 EV. The step size can be changed in .env.local.
 
-Manual stack. After activation, the frame number is automatically increased after each frame while the YYMMDD-HHMMSS part of the filename remains unchanged between the different frames.
+Manual focus stacks. Once enabled, the frame number increases automatically after every shot, while the YYMMDD-HHMMSS part of the filename remains the same for all frames.
 
-Manual Field Of View entry
+Manual entry of Field of View
 
-Automatic exposure, with or without compensation, or manual exposure. At 15 fps, the preview window cannot use shutter times longer than 66 ms. For longer shutter times in the preview, 5 fps must be selected. There is currently a limitation of a maximum shutter time of 120 ms in the preview window.
+Automatic exposure (with or without compensation) in two modes: either both the analogue gain and shutter speed vary automatically, or only the shutter speed varies while analogue gain stays at its minimum (1×). The latter reduces noise. There is also a manual mode. At 15 fps, the preview cannot use shutter speeds longer than 66 ms. Select 5 fps for longer shutter speeds in the preview. Currently, automatic exposure in the preview is limited to a maximum shutter speed of 120 ms.
 
 Saturation adjustment
 
 Histogram
 
-Liveview: next to the camera button the liveview. It will show the microscope view in the full browser window. 
+White balance can be automatic or manual. Experience shows that manual white balance is almost always needed for microscopy. The SetWB button equalises the intensities of green, red and blue. Place a white surface in front of the camera to establish the correct white balance.
 
-White balance. This can be either automatic or manual. In practice, automatic white balance does not work particularly well for microscope photographs. The best method is to place a white surface under the objective using the illumination that will be used, then press SETWB. In the histogram, the green, blue and red curves will usually move towards each other; the fine adjustment can then be used to place the blue and red curves over each other.
+Liveview: in addition to the Camera tab, there is a Liveview tab showing the live microscope image.
 
-At the top left there is a Files tab. This is a very rudimentary file browser from which image files can be downloaded. The software assumes that during normal use the photos directory will be accessed through a terminal or SFTP. Using SFTP requires SSH to be enabled on the Pi.
+At the top left there is a Files tab. This is a very basic file browser for downloading image files. The software assumes that the photos directory will normally be accessed through a terminal or SFTP. SFTP requires SSH to be enabled on the Pi.
 
-There is also a Last Photo tab. All images / brackets from the last photograph are displayed to give an impression of the result.
+There is also a Last Photo tab, showing all images / brackets from the most recent shot to give an impression of the result.
 
-Finally there is the "Stop PI" tab. This sends the Pi a shutdown signal, which disconnects the camera.
+Finally, the "Stop Pi" tab sends the Pi a shutdown signal, disconnecting the camera.
 
-At the top right there is a language setting: NL or EN.
+At the top right there is a language selector: NL or EN.
 
-<a href="pictures/tabblad-photo.jpg">
-  <img src="pictures/tabblad-photo.jpg" width="650" alt="Camera tab">
+<a href="pictures/scherm-3.jpg">
+  <img src="pictures/scherm-3.jpg" width="650" alt="Camera tab">
 </a>
 
 *The tab showing the most recently taken photographs*
 
 # Filenames
 
-Because many files are created, the naming scheme is rigid.
+Since many files are generated, the naming scheme is strict.
 
 ## Single captures
 
@@ -96,7 +90,7 @@ Filename: YYMMDD-HHMMSS-[entered name].jpg
 Filename: YYMMDD-HHMMSS-[entered name]-AEB-[stops].jpg
 
 <a href="pictures/dynosaurus.jpg">
-  <img src="pictures/dynosaurus.jpg" width="650" alt="Dinosaur">
+  <img src="pictures/dynosaurus.jpg" width="650" alt="Dinosaur bone">
 </a>
 
 *Photograph of a dinosaur bone*
@@ -107,45 +101,73 @@ Filename: YYMMDD-HHMMSS-[frame number]-[entered name]-[AEB-[stops]].jpg
 
 # Processing files
 
-For the best result, photographs will usually need to be post-processed individually. A script called "mertens.sh" is included in the photos directory. It uses defaults to create an initial processed photo set. Usage: ./mertens.sh YYMMDD-HHMMSS. For AEB brackets, processing is done using enfuse and magick. This generates the file YYMMDD-HHMMSS-[entered name].jpg, as well as a .tif file for possible further processing and a contrast-enhanced file YYMMDD-HHMMSS-[entered name]-contrast.jpg. The latter can sometimes produce quite substantial colour changes, and sometimes it works perfectly.
+For the best results, photographs will usually need to be post-processed individually. A script called "mertens.sh" is included in the photos directory. It uses default settings to generate an initial processed set of photographs. Usage: ./mertens.sh YYMMDD-HHMMSS. AEB brackets are processed using enfuse and magick. This generates YYMMDD-HHMMSS-[entered name].jpg, as well as a .tif file for possible further processing and a contrast-enhanced file, YYMMDD-HHMMSS-[entered name]-contrast.jpg. The last one can sometimes cause substantial colour shifts, although sometimes it works out perfectly.
 
-For stacking frames, a directory named YYMMDD-HHMMSS-focusstack is generated. For each frame, a .tif file is created if brackets were used, or a .jpg file for single photographs. These can then be processed further in stacking software.
+For stacking frames, a directory named YYMMDD-HHMMSS-focusstack is created. A .tif file is generated for each frame if brackets were used, or a .jpg file for single photographs. These files can then be processed in focus-stacking software.
 
-# Pull requests, Issues
+# Points to note
+
+## Preview resolution
+
+The preview defaults to high resolution (1280 × 960). If the network experiences delays, the preview can be switched to low resolution (640 × 480).
+
+## Exposure
+
+The Pi has two exposure settings: shutter speed in milliseconds and analogue gain as a multiplication factor. The least noise occurs with the lowest possible analogue gain: 1×. Since microscope subjects generally do not move, longer exposures are not a problem. In practice, it is best to start with fully automatic exposure, then switch to Auto 1×. The shutter speed may then reach its maximum limit, leaving the image too dark. If that happens, select 5 frames per second. The shutter speed can then increase to a maximum of 120 ms. Still too dark? Switch to manual exposure and set the shutter speed yourself. Of course, fully automatic exposure can also be used throughout, but noise may increase.
+
+## Field of view
+
+MicroRasp uses this value only to record the field of view as a parameter in the EXIF metadata. The *mertens.sh* script also copies it to the generated images.
+
+## White balance
+
+White balance is best set by placing a white surface in front of the camera, using the same lighting and exposure as for the photographs. Then click SetWB. White balance switches to manual. Usually the image will not be completely white yet. Use the fine adjustment for blue and red to bring all three colour curves together in the histogram.
+
+## Camera settling after changes
+
+After changing exposure, white balance or saturation, the Pi sometimes needs a few seconds to settle into the new settings. Just give it time.
+
+# GitHub pull requests and issues
 
 Issues can be submitted. They are handled on an irregular basis.
 
-I do not accept pull requests. In this AI era I resolve these myself in order to retain control. After all, this software opens a web server somewhere on a network, which means I would have to review every pull request to make sure it does not contain a backdoor. Usually it probably will not. So if there is a problem, submit an issue.
+I do not accept pull requests. In this age of AI, I resolve issues myself to retain control. After all, this software opens a web server somewhere on a network, which means I would need to review every pull request to make sure it does not contain a backdoor. Usually that will not be the case. So, if there is a problem, please submit an issue.
 
 **License:** [GNU AGPL v3](LICENSE). External code contributions and pull requests are not accepted.
+
+# Background
+
+I am a gemologist and a software developer. Because I have several microscopes, I was looking for a way to equip each of them with a lightweight camera. Support for HDR and focus stacks was also essential. The Pi + HQ hardware is (was?) cheaper, more flexible and lighter than a DSLR. Since I have four Pi/HQ setups, each microscope has its own permanent installation. I could not find a package for the Pi that offered the features I wanted. Five years ago I built something similar, but its drivers are no longer supported by the new OS. In 2021 I programmed everything myself; this 2026 package was vibe-coded in enjoyable collaboration with ChatGPT 5.6 Sol.
+
+The basic software was ready in a week. Turning it into a distributable product took another ten times as long.
+
+## Effect of HDR
 
 <a href="pictures/hanger-tektiet-contrast.jpg">
   <img src="pictures/hanger-tektiet-contrast.jpg" width="650" alt="Tektite pendant">
 </a>
 
-*Photograph of tektite based on five brackets*
+*Photograph of tektite based on five bracketed exposures*
 
 <a href="pictures/hanger-tektiet-AEB-0.jpg">
   <img src="pictures/hanger-tektiet-AEB-0.jpg" width="650" alt="Tektite pendant">
 </a>
 
-*The same photograph, but as a single exposure. Much less detail is visible in the black areas.*
+*The same photograph, but as a single exposure. Much less detail is visible in the dark areas.*
 
 ## Effect of HDR and stacking
 
 The effect can be subtle, but the stacked HDR version shows more detail and sharpness than the single photograph.
-This is especially visible in the front branch, the detail in the hinge, and the soldering. This is the difference between an OK-ish image and
-an image that shows everything clearly in a single view. It is a detail of a brooch containing four types of joints:
-gold solder, lead-tin solder, glue and a riveted joint.
+This is particularly noticeable in the front twig, the detail in the hinge, and the soldering. It makes the difference between an OK-ish image and one that shows everything clearly in a single view. The photograph shows a detail of a brooch with four kinds of joints: gold solder, lead-tin solder, glue and a riveted joint.
 
 <a href="pictures/takje-lood-goud.jpg">
-  <img src="pictures/takje-lood-goud.jpg" width="650" alt="Camera-hanger">
+  <img src="pictures/takje-lood-goud.jpg" width="650" alt="Brooch detail">
 </a>
 
 *The stacked HDR version*
 
 <a href="pictures/takje-lood-goud-geenstack-geenHDR.jpg">
-  <img src="pictures/takje-lood-goud-geenstack-geenHDR.jpg" width="650" alt="Camera-hanger">
+  <img src="pictures/takje-lood-goud-geenstack-geenHDR.jpg" width="650" alt="Brooch detail">
 </a>
 
 *A single photograph focused on the middle.*
