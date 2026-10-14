@@ -14,9 +14,9 @@ Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een
 
 Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar een oplossing om deze alle te voorzien van vooral een lichtgewicht camera. Daarbij was ookondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is (was?) goedkoper en flexibeler
 en minder zwaar dan een DSLR. En doordat ik vier Pi/HQ instanties heb
-heeft iedere microscoop zijn eigen permanente installatie. Tot mijn verbazing was er geen pakket voor de Pi die dit biedt 
-met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar dit wordt niet meer ondersteund door 
-de nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol.
+heeft iedere microscoop zijn eigen permanente installatie. ik vond geen pakket voor de Pi die dit biedt 
+met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar de drivers worden niet meer ondersteund door 
+het nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket uit 2026 is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol.
 
 De basissoftware was gereed in een week. Een distributeerbaar product duurde nog eens 10x zo lang.
 
@@ -28,19 +28,19 @@ De basissoftware was gereed in een week. Een distributeerbaar product duurde nog
 
 # Technisch
 
-De Pi en de camera zijn via CMOUNT aan de reductielens van de microscope of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
+De Pi en de camera zijn via cmount aan de reductielens van de microscop of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
 
 De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worden gelezen. Het is natuurlijk ook mogelijk om de desktop op de Pi te activeren. Daarnaast kan de terminal worden gebruikt.
 
 # Installatie
 
-De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerdop de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rPicam-still.
+De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerd op de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rpicam-still.
 
 Download de ZIP (microrasp.zip) van de laatste release (rechterkolom in github), unzip deze in een directory op de Pi en draai het *install.sh* script. Aan het eind vindt een check van de implementatie plaats. Bij problemen kan script *check-installation.sh* worden gedraaid, dit script test of alle noodzakelijke componenten aanwezig zijn.
 
 De fotobestanden staan in de directory photos onder de installatie. Ik heb dit niet configureerbaar gemaakt om het zo eenduidig mogelijk te houden.
 
-*De camera is benaderbaar op: http://adres-van-de-Pi:8000*s
+*De camera is benaderbaar op: http://adres-van-de-Pi:8000*
 
 De host die de camera benadert moet de Pi op poort 8000 kunnen bereiken.
 
@@ -116,7 +116,7 @@ Als het stackframes betreft wordt er een directory gegenereerd YYMMDD-HHMMSS-foc
 
 ## Resolutie preview
 
-Standaard staat de resolutie van de preview op hoge resolutie (1280 x 960). Als het netwerk vertragingen kent, kan deze worden worden geschakeld naar lage resolutie (640 x 480).
+Standaard staat de resolutie van de preview op hoge resolutie (1280 x 960). Als het netwerk vertragingen kent, kan de preview worden worden geschakeld naar lage resolutie (640 x 480).
 
 ## Belichting
 
