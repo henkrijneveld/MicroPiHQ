@@ -10,27 +10,17 @@ Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een
 
 *De gebruikersinterface*
 
-# Achtergrond
+# Technisch
 
-Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar een oplossing om deze alle te voorzien van vooral een lichtgewicht camera. Daarbij was ookondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is (was?) goedkoper en flexibeler
-en minder zwaar dan een DSLR. En doordat ik vier Pi/HQ instanties heb
-heeft iedere microscoop zijn eigen permanente installatie. ik vond geen pakket voor de Pi die dit biedt 
-met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar de drivers worden niet meer ondersteund door 
-het nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket uit 2026 is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol.
+De Pi en de camera zijn via cmount aan de reductielens van de microscop of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
 
-De basissoftware was gereed in een week. Een distributeerbaar product duurde nog eens 10x zo lang.
+De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worden gelezen. Het is natuurlijk ook mogelijk om de desktop op de Pi te activeren. Daarnaast kan de terminal worden gebruikt.
 
 <a href="pictures/verbinding.jpg">
   <img src="pictures/verbinding.jpg" width="650" alt="Camera-bevestiging">
 </a>
 
 *De cmount verbinding met de reductielens. Er is gebruik gemaakt van het standaard acryl plaatje zodat camera en Pi een geheel vormen*
-
-# Technisch
-
-De Pi en de camera zijn via cmount aan de reductielens van de microscop of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
-
-De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worden gelezen. Het is natuurlijk ook mogelijk om de desktop op de Pi te activeren. Daarnaast kan de terminal worden gebruikt.
 
 # Installatie
 
@@ -60,13 +50,13 @@ Handmatige stack. Na activatie wordt na elk frame het nummer automatisch verhoog
 
 Ingave Field Of View (handmatig)
 
-Automatische belichting, met of zonder correctie, of handmatig. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. Daarnaast kan voor automatische belichting worden gekozen met de knop Auto 1x, waarbij de analoge versterking op 1x wordt vastgezet. Dit levert langere sluitingstijden maar (veel) minder ruis op.
+Automatische belichting (met of zonder correctie) in twee modes: zowel analoge versterker en sluitertijd zijn variabel, of alleen de sluitertijd en de versterking altijd op minimum (1x). dit laatste reduceert de ruis. Daarnaast een handmatige mode. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. 
 
 Kleurverzadigingsinstelling
 
 Histogram
 
-Witbalans. Kan zowel automatisch als handmatig. De praktijk leert dat bij microscoopfoto's de automatische balans niet lekker werkt. De beste methode is een wit vlak onder het objectief te houden met de te gebruiken belichting. Dan op SETWB te drukken. Het histogram loopt den met groen, blauw en rood meestal naar elkaar toe, en dan met de fijnafstelling de blauwe en de rode curve in het histogram over elkaar te leggen. 
+Witbalans. Kan zowel automatisch als handmatig. de praktijk leert dat handmatig bijna altijd noodzakelijk is bij microscoopgebruik. De knop setWB maakt de groen, rood en blauwintensiteiten gelijk. Leg daarvoor een wit vlak voor de camera zodat de juiste witbalans wordt ingesteld.
 
 Liveview: naast de camera de liveview. Hier wordt het live microscoopbeeld getoond 
 
@@ -120,7 +110,7 @@ Standaard staat de resolutie van de preview op hoge resolutie (1280 x 960). Als 
 
 ## Belichting
 
-De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. De minste ruis treedt op bij een zo laag mogelijke analoge versterking: 1x. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Dan op Auto 1x te zetten. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen.
+De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. De minste ruis treedt op bij een zo laag mogelijke analoge versterking: 1x. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Dan op Auto 1x te zetten. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120 ms. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen.
 
 ## Field of view
 
@@ -141,6 +131,16 @@ Issues kunnen worden opgevoerd. Afhandeling daarvan is onregelmatig.
 Ik accepteer geen pull requests. In deze AI tijd los ik deze zelf op om ook de controle te houden. Deze software opent tenslotte een webserver ergens op een netwerk en dat betekent dat ik elke pull request moet gaan beoordelen of er geen backdoor inzit. Zal meestal niet zo zijn. Dus is er een probleem? Voer een issue op. 
 
 **Licentie:** [GNU AGPL v3](LICENSE). Externe codebijdragen en pull requests worden niet geaccepteerd.
+
+# Achtergrond
+
+Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar een oplossing om deze alle te voorzien van vooral een lichtgewicht camera. Daarbij was ookondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is (was?) goedkoper en flexibeler
+en minder zwaar dan een DSLR. En doordat ik vier Pi/HQ instanties heb
+heeft iedere microscoop zijn eigen permanente installatie. ik vond geen pakket voor de Pi die dit biedt 
+met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar de drivers worden niet meer ondersteund door 
+het nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket uit 2026 is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol.
+
+De basissoftware was gereed in een week. Een distributeerbaar product duurde nog eens 10x zo lang.
 
 ## Effect van HDR
 
