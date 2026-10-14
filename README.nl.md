@@ -2,19 +2,17 @@
 
 # Microscope-Picam2
 
-Pakket voor het gebruik van de HQ camera en een raspberry pi, specifiek voor een microscoop. Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. Het doel is het maken van foto's, geen ondersteuning van video.
+Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een microscoop of voor macro-opnames. Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. Het doel is het maken en opslaan van foto's, video wordt ondersteund voor preview maar niet om op te slaan.
 
-<a href="pictures/scherm-1.jpg">
-  <img src="pictures/scherm-1.jpg" width="650" alt="Camera-interface">
+<a href="Pictures/scherm-1.jpg">
+  <img src="Pictures/scherm-1.jpg" width="650" alt="Camera-interface">
 </a>
 
 *De gebruikersinterface*
 
 # Achtergrond
 
-Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar 
-een oplossing om deze alle te voorzien van vooral een lichtgewoicht camera. Daarbij was ook
-ondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is (was?) goedkoper en flexibeler
+Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar een oplossing om deze alle te voorzien van vooral een lichtgewicht camera. Daarbij was ookondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is (was?) goedkoper en flexibeler
 en minder zwaar dan een DSLR. En doordat ik vier Pi/HQ instanties heb
 heeft iedere microscoop zijn eigen permanente installatie. Tot mijn verbazing was er geen pakket voor de Pi die dit biedt 
 met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar dit wordt niet meer ondersteund door 
@@ -22,33 +20,33 @@ de nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket is gevibecode in a
 
 De basissoftware was gereed in een week. Een distributeerbaar product duurde nog eens 10x zo lang.
 
-<a href="pictures/verbinding.jpg">
-  <img src="pictures/verbinding.jpg" width="650" alt="Camera-bevestiging">
+<a href="Pictures/verbinding.jpg">
+  <img src="Pictures/verbinding.jpg" width="650" alt="Camera-bevestiging">
 </a>
 
 *De cmount verbinding met de reductielens. Er is gebruik gemaakt van het standaard acryl plaatje zodat camera en Pi een geheel vormen*
 
 # Technisch
 
-De PI en de camera zijn via CMOUNT aan de microscope verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en PI4 daadwerkelijk getest is. Op de PI draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. 
+De Pi en de camera zijn via CMOUNT aan de reductielens van de microscope of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
 
-De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de PI worden gelezen. Het is natuurlijk ook mogelijk om de desktop op de PI te activeren. Daarnaast kan de terminal worden gebruikt.
+De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worden gelezen. Het is natuurlijk ook mogelijk om de desktop op de Pi te activeren. Daarnaast kan de terminal worden gebruikt.
 
 # Installatie
 
-De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerdop de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rpicam-still.
+De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerdop de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rPicam-still.
 
-Download de ZIP (microrasp.zip) van de laatste release (rechterkolom in github), unzip deze in een directory op de PI en draai het install.sh script. Aan het eind vindt een check van de implementatie plaats. Bij problemen kan script check-installation.sh worden gedraaid, dit script test of alle noodzakelijke componenten aanwezig zijn.
+Download de ZIP (microrasp.zip) van de laatste release (rechterkolom in github), unzip deze in een directory op de Pi en draai het *install.sh* script. Aan het eind vindt een check van de implementatie plaats. Bij problemen kan script *check-installation.sh* worden gedraaid, dit script test of alle noodzakelijke componenten aanwezig zijn.
 
 De fotobestanden staan in de directory photos onder de installatie. Ik heb dit niet configureerbaar gemaakt om het zo eenduidig mogelijk te houden.
 
-*De camera is benaderbaar op: http://adres-van-de-pi:8000*s
+*De camera is benaderbaar op: http://adres-van-de-Pi:8000*s
 
 De host die de camera benadert moet de Pi op poort 8000 kunnen bereiken.
 
-Het installatiescript installeert een service, zodat de webserver wordt gestart bij het starten van de PI. Als dit niet gewenst is kan dit worden uitgezet met het script disable-autostart.sh. Met het script enable-autostart.sh kan het weer worden geactiveerd. Daarnaast is er een start en stop script om de webserver separaat te starten en te stoppen.
+Het installatiescript installeert een service, zodat de webserver wordt gestart bij het starten van de Pi. Als dit niet gewenst is kan dit worden uitgezet met het script *disable-autostart.sh*. Met het script *enable-autostart.sh* kan het weer worden geactiveerd. Daarnaast is er een start en stop script om de webserver separaat te starten en te stoppen.
 
-Voordat je de software verwijdert eerst het uninstall.sh script draaien. Daarna kan de directory worden verwijderd. De geinstalleerde software pakketten worden niet verwijderd door het uninstall.sh script.
+Voordat je de software verwijdert eerst het *uninstall.sh* script draaien. Daarna kan de directory worden verwijderd. De geinstalleerde software pakketten worden niet verwijderd door het uninstall.sh script.
 
 Upgraden kan door de nieuwe versie te downloaden, over de bestaande installatie te unzippen, en dan het install script weer te draaien.
 
@@ -62,7 +60,7 @@ Handmatige stack. Na activatie wordt na elk frame het nummer automatisch verhoog
 
 Ingave Field Of View (handmatig)
 
-Automatische belichting, met of zonder correctie, of handmatig. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window.
+Automatische belichting, met of zonder correctie, of handmatig. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. Daarnaast kan voor automatische belichting worden gekozen met de knop Auto 1x, waarbij de analoge versterking op 1x wordt vastgezet. Dit levert langere sluitingstijden maar (veel) minder ruis op.
 
 Kleurverzadigingsinstelling
 
@@ -76,12 +74,12 @@ Linksboven een bestanden tab. Dit is een heel rudimentaire filebrowser waar beel
 
 Dan een tab laatste foto. Alle afbeeldingen / brackets van de laatste foto worden getoond om een indruk te geven
 
-Tenslotte de tab "Stop PI". Dit geeft de pi een shutdown signaal waardoor de verbinding met de camera wordt verbroken.
+Tenslotte de tab "Stop Pi". Dit geeft de Pi een shutdown signaal waardoor de verbinding met de camera wordt verbroken.
 
 Rechtsboven een taalinstelling: NL of EN
 
-<a href="pictures/scherm-3.jpg">
-  <img src="pictures/scherm-3.jpg" width="650" alt="Camera-tab">
+<a href="Pictures/scherm-3.jpg">
+  <img src="Pictures/scherm-3.jpg" width="650" alt="Camera-tab">
 </a>
 
 *De tab met de laatste genomen foto's* 
@@ -98,8 +96,8 @@ Bestandsnaam is YYMMDD-HHMMSS-[ingevulde naam].jpg
 
 Bestandsnaam is YYMMDD-HHMMSS-[ingevulde naam]-AEB-[stops].jpg
 
-<a href="pictures/dynosaurus.jpg">
-  <img src="pictures/dynosaurus.jpg" width="650" alt="Camera-dino">
+<a href="Pictures/dynosaurus.jpg">
+  <img src="Pictures/dynosaurus.jpg" width="650" alt="Camera-dino">
 </a>
 
 *Foto van een dynosaurus bot*
@@ -114,7 +112,29 @@ De nabewerking van de foto's zal meestal stuk voor stuk moeten gebeuren voor het
 
 Als het stackframes betreft wordt er een directory gegenereerd YYMMDD-HHMMSS-focusstack waarin voor elk frame een .tif bestand wordt gemaakt (als er gebruik werd gemaakt van brackets), of een .jpg als het enkele foto's betreft. Deze kan dan in een stacking programma worden verder bewerkt.
 
-# Pull requests, Issues
+# Aandachtspunten
+
+## Resolutie preview
+
+Standaard staat de resolutie van de preview op hoge resolutie (1280 x 960). Als het netwerk vertragingen kent, kan deze worden worden geschakeld naar lage resolutie (640 x 480).
+
+## Belichting
+
+De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. De minste ruis treedt op bij een zo laag mogelijke analoge versterking: 1x. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Dan op Auto 1x te zetten. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen.
+
+## Field of view
+
+Deze waarde wordt door MicroRasp alleen gebruikt om in het exif bestand deze als parameter op te nemen. Het *mertens.sh* script kopieert deze waardes eveneens naar de gegenereerde afbeeldingen.
+
+## Witbalans
+
+De witbalans kan het beste worden ingesteld door een wit vlak met de te gebruiken belichting voor de camera te houden. Dan op SetWB te klikken. De balans gaat dan naar handmatig. Meestal zal dan het beeld nog net niet helemaal wit zijn. Leg daarom met de fijnafregeling voor blauw en rood in het histogram de drie kleuren over elkaar heen.
+
+## Stabilisatie camera na wijzigingen
+
+Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Geef het apparaat gewoon de tijd daarvoor.
+
+# Github pull requests, github issues
 
 Issues kunnen worden opgevoerd. Afhandeling daarvan is onregelmatig.
 
@@ -124,14 +144,14 @@ Ik accepteer geen pull requests. In deze AI tijd los ik deze zelf op om ook de c
 
 ## Effect van HDR
 
-<a href="pictures/hanger-tektiet-contrast.jpg">
-  <img src="pictures/hanger-tektiet-contrast.jpg" width="650" alt="Camera-hanger">
+<a href="Pictures/hanger-tektiet-contrast.jpg">
+  <img src="Pictures/hanger-tektiet-contrast.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *Foto van tektiet gebaseerd op vijf brackets*
 
-<a href="pictures/hanger-tektiet-AEB-0.jpg">
-  <img src="pictures/hanger-tektiet-AEB-0.jpg" width="650" alt="Camera-hanger">
+<a href="Pictures/hanger-tektiet-AEB-0.jpg">
+  <img src="Pictures/hanger-tektiet-AEB-0.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *Zelfde foto, maar nu als enkele opname. Er is in het zwart veel minder detail zichtbaar*
@@ -143,14 +163,14 @@ Met name het voorste takje, het detail in het scharnier, en de soldering. Dit is
 een afbeelding die alles in een enkele keer goed laat zien. Het is een detail van een broche met daarin vier verbindingen:
 goudsoldeer, lood-tinsoldeer, lijm en een klinknagelverbinding.
 
-<a href="pictures/takje-lood-goud.jpg">
-  <img src="pictures/takje-lood-goud.jpg" width="650" alt="Camera-hanger">
+<a href="Pictures/takje-lood-goud.jpg">
+  <img src="Pictures/takje-lood-goud.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *De gestackte HDR versie*
 
-<a href="pictures/takje-lood-goud-geenstack-geenHDR.jpg">
-  <img src="pictures/takje-lood-goud-geenstack-geenHDR.jpg" width="650" alt="Camera-hanger">
+<a href="Pictures/takje-lood-goud-geenstack-geenHDR.jpg">
+  <img src="Pictures/takje-lood-goud-geenstack-geenHDR.jpg" width="650" alt="Camera-hanger">
 </a>
 
 *Een enkele foto scherpgesteld op het midden.*
