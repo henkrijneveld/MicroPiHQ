@@ -40,7 +40,7 @@ Voordat je de software verwijdert eerst het *uninstall.sh* script draaien. Daarn
 
 Upgraden kan door de nieuwe versie te downloaden, over de bestaande installatie te unzippen, en dan het install script weer te draaien.
 
-**Let op bij oudere installaties:** de ZIP bevat nu de map `MicroPiHQ/`. Heeft de bestaande installatie een andere mapnaam, kopieer dan de inhoud van `MicroPiHQ/` naar de bestaande installatiemap en voer dáár `./install.sh` uit. De bestaande `photos/` en `.env.local` blijven daarbij behouden.
+**Let op bij oudere installaties:** de ZIP bevat nu de map `MicroPiHQ/`. Heeft de bestaande installatie een andere mapnaam, kopieer dan de inhoud van `MicroPiHQ/` naar de bestaande installatiemap en voer dáár `./install.sh` uit. De bestaande `photos/` en `.env.local` blijven daarbij behouden. `install.sh` vervangt daarbij automatisch de oude systemd-service door `micropihq.service` en verwijdert de bijbehorende verouderde shutdown-helper.
 
 # functies
 
