@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-SERVICE_NAME="microscope-picam2"
+SERVICE_NAME="micropihq"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON="/usr/bin/python3"
 PYTHON_DIR="$ROOT_DIR/python"
@@ -10,8 +10,14 @@ REQUIREMENTS="$ROOT_DIR/requirements.txt"
 RUN_USER="${SUDO_USER:-$(id -un)}"
 RUN_GROUP="$(id -gn "$RUN_USER")"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
-POWEROFF_HELPER="/usr/local/sbin/microscope-picam2-poweroff"
-SUDOERS_FILE="/etc/sudoers.d/microscope-picam2-poweroff"
+POWEROFF_HELPER="/usr/local/sbin/micropihq-poweroff"
+SUDOERS_FILE="/etc/sudoers.d/micropihq-poweroff"
+
+# One-time migration for installations made before the rename.
+LEGACY_SERVICE_NAME="microscope-picam2"
+LEGACY_SERVICE_FILE="/etc/systemd/system/${LEGACY_SERVICE_NAME}.service"
+LEGACY_POWEROFF_HELPER="/usr/local/sbin/microscope-picam2-poweroff"
+LEGACY_SUDOERS_FILE="/etc/sudoers.d/microscope-picam2-poweroff"
 
 as_root() {
   if [ "$(id -u)" -eq 0 ]; then
@@ -73,6 +79,7 @@ PY
 
 echo "Stopping existing MicroPiHQ service if present..."
 as_root systemctl stop "$SERVICE_NAME.service" 2>/dev/null || true
+as_root systemctl stop "$LEGACY_SERVICE_NAME.service" 2>/dev/null || true
 
 echo "Installing MicroPiHQ Python dependencies..."
 rm -rf "$PYTHON_DIR"
@@ -153,6 +160,14 @@ as_root install -o root -g root -m 0440 "$SUDOERS_TMP" "$SUDOERS_FILE"
 
 echo "Installing systemd service..."
 as_root install -o root -g root -m 0644 "$SERVICE_TMP" "$SERVICE_FILE"
+
+# Remove the old service and shutdown permissions after the new files exist.
+if [ -f "$LEGACY_SERVICE_FILE" ]; then
+  echo "Removing previous service: $LEGACY_SERVICE_NAME"
+  as_root systemctl disable --now "$LEGACY_SERVICE_NAME.service" 2>/dev/null || true
+  as_root rm -f "$LEGACY_SERVICE_FILE"
+fi
+as_root rm -f "$LEGACY_POWEROFF_HELPER" "$LEGACY_SUDOERS_FILE"
 as_root systemctl daemon-reload
 as_root systemctl enable "$SERVICE_NAME.service"
 as_root systemctl restart "$SERVICE_NAME.service"
