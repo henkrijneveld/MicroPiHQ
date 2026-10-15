@@ -113,7 +113,7 @@ The preview defaults to high resolution (1280 × 960). If the network experience
 
 ## Exposure
 
-The Pi has two exposure settings: shutter speed in milliseconds and analogue gain as a multiplication factor. The least noise occurs with the lowest possible analogue gain: 1×. Since microscope subjects generally do not move, longer exposures are not a problem. In practice, it is best to start with fully automatic exposure, then switch to Auto 1×. The shutter speed may then reach its maximum limit, leaving the image too dark. If that happens, select 5 frames per second. The shutter speed can then increase to a maximum of 120 ms. Still too dark? Switch to manual exposure and set the shutter speed yourself. Of course, fully automatic exposure can also be used throughout, but noise may increase.
+The Pi has two exposure settings: shutter speed in milliseconds and analogue gain as a multiplication factor. The least noise occurs with the lowest possible analogue gain: 1×. Since microscope subjects generally do not move, longer exposures are not a problem. In practice, it is best to start with fully automatic exposure, then switch to Auto 1×. The shutter speed may then reach its maximum limit, leaving the image too dark. If that happens, select 5 frames per second. The shutter speed can then increase to a maximum of 120 ms. Still too dark? Switch to manual exposure and set the shutter speed yourself. Of course, fully automatic exposure can also be used throughout, but noise may increase. be aware of the settling of the camera as explained below.
 
 ## Field of view
 
@@ -125,7 +125,7 @@ White balance is best set by placing a white surface in front of the camera, usi
 
 ## Camera settling after changes
 
-After changing exposure, white balance or saturation, the Pi sometimes needs a few seconds to settle into the new settings. Just give it time.
+After changing exposure, white balance or saturation, the Pi sometimes needs a few seconds to settle into the new settings. Just give it time. This is especially true with the Auto 1x setting or a manual setting with low gain. Just let the Pi do its thing! 
 
 # GitHub pull requests and issues
 

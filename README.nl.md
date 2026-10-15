@@ -110,7 +110,7 @@ Standaard staat de resolutie van de preview op hoge resolutie (1280 x 960). Als 
 
 ## Belichting
 
-De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. De minste ruis treedt op bij een zo laag mogelijke analoge versterking: 1x. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Dan op Auto 1x te zetten. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120 ms. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen.
+De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. De minste ruis treedt op bij een zo laag mogelijke analoge versterking: 1x. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Dan op Auto 1x te zetten. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120 ms. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen. Let op het instellen van de camera zoals beneden beschreven!
 
 ## Field of view
 
@@ -122,7 +122,7 @@ De witbalans kan het beste worden ingesteld door een wit vlak met de te gebruike
 
 ## Stabilisatie camera na wijzigingen
 
-Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Geef het apparaat gewoon de tijd daarvoor.
+Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Geef het apparaat gewoon de tijd daarvoor. Dit geldt in het bijzonder bij de instelling Auto 1x of een manual instelling met lage versterking. Laat de Pi even zijn gang gaan!
 
 # Github pull requests, github issues
 
