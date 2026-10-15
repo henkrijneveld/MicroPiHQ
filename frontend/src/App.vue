@@ -11,7 +11,7 @@ const liveviewMode = ref('width')
 const liveviewOffset = ref({ x: 0, y: 0 })
 let liveviewDragStart = null
 
-const PREVIEW_FLIP_STORAGE_KEY = 'microrasp-preview-flip'
+const PREVIEW_FLIP_STORAGE_KEY = 'micropihq-preview-flip'
 
 function storedPreviewFlip() {
   try {
