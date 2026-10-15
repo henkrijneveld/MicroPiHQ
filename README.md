@@ -3,7 +3,7 @@
 > [!NOTE]
 > This README is automatically translated from the original Dutch version, [README.nl.md](README.nl.md). The Dutch version is the source document.
 
-# MicroRasp (Microscope-Picam2)
+# MicroPiHQ (Microscope-Picam2)
 
 A package for using the Raspberry Pi HQ Camera with a Raspberry Pi, specifically for microscopy or macro photography. This is a new version of Microscope-Picam, now based on libcamera and Picamera2. The goal is to take and save photographs. Video is supported for the preview, but not for recording.
 
@@ -29,7 +29,7 @@ The easiest way to access the files on the Pi is through an SFTP connection. Of 
 
 Installation assumes that the latest version of Trixie has been installed on the SD card. This can be either the Lite version or the desktop version, although the latter quickly becomes rather demanding for a Pi 3B+. The HQ Camera must also be connected and tested with rpicam-still.
 
-Download the ZIP file (microrasp.zip) from the latest release (in the right-hand column on GitHub), extract it into a directory on the Pi, and run the *install.sh* script. The installation is checked at the end. If you encounter problems, run *check-installation.sh*, which checks that all required components are available.
+Download the ZIP file (MicroPiHQ.zip) from the latest release (in the right-hand column on GitHub), extract it into a directory on the Pi, and run the *install.sh* script. The installation is checked at the end. If you encounter problems, run *check-installation.sh*, which checks that all required components are available.
 
 Photographs are stored in the photos directory inside the installation. I have deliberately not made this configurable, to keep things as straightforward as possible.
 
@@ -42,6 +42,8 @@ The installation script installs a service so that the web server starts when th
 Before removing the software, first run *uninstall.sh*. The directory can then be deleted. Software packages installed during installation are not removed by *uninstall.sh*.
 
 To upgrade, download the new version, extract it over the existing installation, and run the installation script again.
+
+**Note for older installations:** the ZIP now contains a `MicroPiHQ/` directory. If your current installation has a different directory name, copy the contents of `MicroPiHQ/` into your existing installation directory and run `./install.sh` there. This preserves the existing `photos/` directory and `.env.local` configuration.
 
 # Features
 
@@ -119,7 +121,7 @@ The Pi has two exposure settings: shutter speed in milliseconds and analogue gai
 
 ## Field of view
 
-MicroRasp uses this value only to record the field of view as a parameter in the EXIF metadata. The *mertens.sh* script also copies it to the generated images.
+MicroPiHQ uses this value only to record the field of view as a parameter in the EXIF metadata. The *mertens.sh* script also copies it to the generated images.
 
 ## White balance
 
