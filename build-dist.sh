@@ -48,6 +48,8 @@ cp LICENSE "$DIST_DIR/LICENSE"
 
 cp release/resources/mertens.sh "$DIST_DIR/resources/mertens.sh"
 cp release/resources/mertens.sh "$DIST_DIR/photos/mertens.sh"
+cp release/resources/mertensall.sh "$DIST_DIR/resources/mertensall.sh"
+cp release/resources/mertensall.sh "$DIST_DIR/photos/mertensall.sh"
 
 find "$DIST_DIR/backend" -type d -name '__pycache__' -prune -exec rm -rf {} +
 find "$DIST_DIR/backend" -type f -name '*.py[co]' -delete
@@ -66,7 +68,9 @@ chmod +x \
 
 chmod 0555 \
   "$DIST_DIR/resources/mertens.sh" \
-  "$DIST_DIR/photos/mertens.sh"
+  "$DIST_DIR/photos/mertens.sh" \
+  "$DIST_DIR/resources/mertensall.sh" \
+  "$DIST_DIR/photos/mertensall.sh"
 
 echo "Creating ZIP..."
 rm -f "$ZIP_FILE"
