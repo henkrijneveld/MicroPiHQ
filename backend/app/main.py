@@ -514,7 +514,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Microscope Picam2",
+    title="MicroPiHQ",
     lifespan=lifespan,
 )
 
@@ -1666,10 +1666,10 @@ else:
         <html lang="nl">
         <head>
             <meta charset="utf-8">
-            <title>Microscope Picam2</title>
+            <title>MicroPiHQ</title>
         </head>
         <body>
-            <h1>Microscope Picam2</h1>
+            <h1>MicroPiHQ</h1>
             <p>Frontend is nog niet gebouwd. Start de server via runback.sh.</p>
         </body>
         </html>
