@@ -3,7 +3,7 @@
 > [!NOTE]
 > This README is automatically translated from the original Dutch version, [README.nl.md](README.nl.md). The Dutch version is the source document.
 
-# MicroPiHQ (Microscope-Picam2)
+# MicroPiHQ
 
 A package for using the Raspberry Pi HQ Camera with a Raspberry Pi, specifically for microscopy or macro photography. This is a new version of Microscope-Picam, now based on libcamera and Picamera2. The goal is to take and save photographs. Video is supported for the preview, but not for recording.
 
