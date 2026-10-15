@@ -131,7 +131,7 @@ process_series() {
 
     if [[ $user_comment =~ \"FOV\":(\{[^}]*\}) ]]; then
         fov_object="${BASH_REMATCH[1]}"
-        fov_json="{\"microscope_picam2\":{\"FOV\":${fov_object}}}"
+        fov_json="{\"micropihq\":{\"FOV\":${fov_object}}}"
 
         if ! exiftool -overwrite_original \
             "-EXIF:UserComment=$fov_json" \
