@@ -4,8 +4,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST_ROOT="$ROOT_DIR/dist"
-DIST_DIR="$DIST_ROOT/MicroRasp"
-ZIP_FILE="$DIST_ROOT/MicroRasp.zip"
+DIST_DIR="$DIST_ROOT/MicroPiHQ"
+ZIP_FILE="$DIST_ROOT/MicroPiHQ.zip"
 
 cd "$ROOT_DIR"
 
@@ -76,14 +76,14 @@ echo "Creating ZIP..."
 rm -f "$ZIP_FILE"
 (
   cd "$DIST_ROOT"
-  zip -qr "MicroRasp.zip" "MicroRasp" \
-    -x "MicroRasp/python/.python-tag" \
-       "MicroRasp/python/*.pyc" \
-       "MicroRasp/photos/*.jpg" \
-       "MicroRasp/photos/*.jpeg" \
-       "MicroRasp/photos/*.png" \
-       "MicroRasp/photos/*.tif" \
-       "MicroRasp/photos/*.tiff"
+  zip -qr "MicroPiHQ.zip" "MicroPiHQ" \
+    -x "MicroPiHQ/python/.python-tag" \
+       "MicroPiHQ/python/*.pyc" \
+       "MicroPiHQ/photos/*.jpg" \
+       "MicroPiHQ/photos/*.jpeg" \
+       "MicroPiHQ/photos/*.png" \
+       "MicroPiHQ/photos/*.tif" \
+       "MicroPiHQ/photos/*.tiff"
 )
 
 echo
@@ -92,4 +92,4 @@ echo "  $DIST_DIR"
 echo "  $ZIP_FILE"
 echo
 echo "The directory and ZIP are generated locally and ignored by Git."
-echo "Upload MicroRasp.zip as a GitHub Release asset."
+echo "Upload MicroPiHQ.zip as a GitHub Release asset."
