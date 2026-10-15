@@ -105,6 +105,8 @@ For the best results, photographs will usually need to be post-processed individ
 
 For stacking frames, a directory named YYMMDD-HHMMSS-focusstack is created. A .tif file is generated for each frame if brackets were used, or a .jpg file for single photographs. These files can then be processed in focus-stacking software.
 
+To process every set in a directory, use *mertensall.sh*. Run `./mertensall.sh` from the photos directory, or specify a different directory with `./mertensall.sh /path/to/photos`. The script finds every unique YYMMDD-HHMMSS series containing AEB brackets or focus-stack frames and calls *mertens.sh* once per series. Ordinary single photographs are skipped. Running it again regenerates the processed results; the original photographs are preserved.
+
 # Points to note
 
 ## Preview resolution
