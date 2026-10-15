@@ -969,7 +969,7 @@ onUnmounted(() => {
           <span class="status-detail">{{ error }}</span>
         </template>
         <template v-else-if="status">
-          <span class="status-primary">MicroRasp: {{ status.status }}</span>
+          <span class="status-primary">MicroPiHQ: {{ status.status }}</span>
           <span class="status-detail">
             <template v-if="!status.camera.connected">
               {{ t('common.notConnected') }}
@@ -983,7 +983,7 @@ onUnmounted(() => {
           </span>
         </template>
         <template v-else>
-          <span class="status-primary">MicroRasp</span>
+          <span class="status-primary">MicroPiHQ</span>
           <span class="status-detail">{{ t('common.loadingStatus') }}</span>
         </template>
         <span v-if="!shuttingDown" class="status-ping" :title="t('status.pingHint')">
@@ -1001,7 +1001,7 @@ onUnmounted(() => {
           <img
             class="app-logo"
             :src="mannetjeUrl"
-            alt="MicroRasp"
+            alt="MicroPiHQ"
           >
         </a>
       </div>
@@ -1354,7 +1354,7 @@ onUnmounted(() => {
     </nav>
 
     <section id="files-system-status" aria-live="polite">
-      <span class="files-status-text">MicroRasp</span>
+      <span class="files-status-text">MicroPiHQ</span>
       <span class="status-ping" :title="t('status.pingHint')">
         {{ t('status.ping') }}: {{ pingMs === null ? '—' : `${pingMs} ms` }}
       </span>
@@ -1369,7 +1369,7 @@ onUnmounted(() => {
       <img
         class="app-logo"
         :src="mannetjeUrl"
-        alt="MicroRasp"
+        alt="MicroPiHQ"
       >
     </div>
 
