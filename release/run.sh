@@ -30,12 +30,12 @@ fi
 
 if [ ! -f "$FRONTEND_INDEX" ]; then
   echo "Frontend is missing: $FRONTEND_INDEX" >&2
-  echo "Use a complete MicroRasp distribution." >&2
+  echo "Use a complete MicroPiHQ distribution." >&2
   exit 78
 fi
 
 if [ ! -f "$PYTHON_TAG_FILE" ]; then
-  echo "MicroRasp Python dependencies have not been installed yet." >&2
+  echo "MicroPiHQ Python dependencies have not been installed yet." >&2
   echo "Run ./install.sh." >&2
   exit 78
 fi
