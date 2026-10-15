@@ -192,8 +192,8 @@ window.fetch = async function micropihqFetch(input, init = undefined) {
     const headers = new Headers(
       init?.headers || (typeof input !== 'string' ? input.headers : undefined),
     )
-    headers.set('X-Micropihq-Stack-Timestamp', stackTimestamp)
-    headers.set('X-Micropihq-Stack-Number', String(stackNumber))
+    headers.set('X-MicroPiHQ-Stack-Timestamp', stackTimestamp)
+    headers.set('X-MicroPiHQ-Stack-Number', String(stackNumber))
     nextInit = {
       ...(init || {}),
       headers,
