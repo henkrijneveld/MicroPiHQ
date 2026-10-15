@@ -15,7 +15,7 @@ if [ -f "$ENV_FILE" ]; then
 fi
 
 PI_HOST="${1:-${PI_HOST:-}}"
-DEPLOY_DIR="${DEPLOY_DIR:-Deploy/Microscope-Picam2}"
+DEPLOY_DIR="${DEPLOY_DIR:-Deploy/MicroPiHQ}"
 
 if [ -z "$PI_HOST" ]; then
   echo "PI_HOST is missing." >&2
