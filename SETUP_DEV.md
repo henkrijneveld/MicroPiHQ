@@ -1,4 +1,4 @@
-# MicroPiHQ (Microscope-Picam2)
+# MicroPiHQ
 
 Microscope camera based on Raspberry Pi, HQ Camera and Picamera2.
 
@@ -78,7 +78,7 @@ The installer:
 - verifies Picamera2/libcamera using the system Python;
 - installs FastAPI, Uvicorn, Pydantic dependencies and piexif into `./python`;
 - records the Python ABI tag used for those packages;
-- installs and starts the `microscope-picam2` systemd service;
+- installs and starts the `micropihq` systemd service;
 - runs `check-installation.sh` as a final end-to-end installation check;
 - installs the restricted poweroff helper used by the web interface.
 
@@ -141,10 +141,15 @@ SATURATION_FACTOR=2
 
 ## Development
 
-The existing development workflow remains separate from the production release. The repository name, development deployment path and systemd service name remain unchanged.
+The existing development workflow remains separate from the production release. The development deployment path defaults to `~/Deploy/MicroPiHQ` and the service is named `micropihq`.
 
 The development Pi can continue to use `sync-dev.sh`, `runback.sh` and the
 existing `.venv`. This is intentionally independent of the release package.
+
+If an existing development Pi uses the old deployment directory, rename that
+directory to `~/Deploy/MicroPiHQ` **before** using `sync-dev.sh` again so its
+existing `.venv` is retained. Then reinstall development autostart from the
+new directory if enabled.
 
 ### Development machine
 
@@ -182,7 +187,7 @@ For the normal development deployment to an existing Pi:
 ./sync-dev.sh <pi-host>
 ```
 
-This will put the files on the PI in the directory ~:/Deploy/Microscope-Picam2. You can run the backend
+This will put the files on the PI in the directory ~/Deploy/MicroPiHQ. You can run the backend
 with startcam.sh en stopcam.sh, or alternatively runback.sh, you will see the loglines flying by. Be aware,
 using runback.sh demands that the camera is stopped with stopcam.sh first.
 
