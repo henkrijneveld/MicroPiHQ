@@ -1,4 +1,4 @@
-const CAPTURE_SETTINGS_STORAGE_KEY = 'microrasp-capture-settings'
+const CAPTURE_SETTINGS_STORAGE_KEY = 'micropihq-capture-settings'
 
 const DEFAULT_CAPTURE_SETTINGS = {
   photoName: 'microscope',
