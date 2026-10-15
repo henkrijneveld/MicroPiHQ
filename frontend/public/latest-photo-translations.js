@@ -1,4 +1,4 @@
-const LANGUAGE_STORAGE_KEY = 'microrasp-language'
+const LANGUAGE_STORAGE_KEY = 'micropihq-language'
 const SUPPORTED_LANGUAGES = new Set(['nl', 'en'])
 
 const translations = {
