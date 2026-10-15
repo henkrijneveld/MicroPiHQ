@@ -142,9 +142,7 @@ Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik 
 en minder zwaar dan een DSLR. En doordat ik vier Pi/HQ instanties heb
 heeft iedere microscoop zijn eigen permanente installatie. ik vond geen pakket voor de Pi die dit biedt 
 met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar de drivers worden niet meer ondersteund door 
-het nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket uit 2026 is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol.
-
-De basissoftware was gereed in een week. Een distributeerbaar product duurde nog eens 10x zo lang.
+het nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket uit 2026 is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol
 
 ## Effect van HDR
 
