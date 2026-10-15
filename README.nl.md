@@ -1,6 +1,6 @@
 [English](README.md) | [Nederlands](README.nl.md)
 
-# MicroRasp (Microscope-Picam2)
+# MicroPiHQ (Microscope-Picam2)
 
 Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een microscoop of voor macro-opnames. Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. Het doel is het maken en opslaan van foto's, video wordt ondersteund voor preview maar niet om op te slaan.
 
@@ -26,7 +26,7 @@ De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worde
 
 De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerd op de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rpicam-still.
 
-Download de ZIP (microrasp.zip) van de laatste release (rechterkolom in github), unzip deze in een directory op de Pi en draai het *install.sh* script. Aan het eind vindt een check van de implementatie plaats. Bij problemen kan script *check-installation.sh* worden gedraaid, dit script test of alle noodzakelijke componenten aanwezig zijn.
+Download de ZIP (MicroPiHQ.zip) van de laatste release (rechterkolom in github), unzip deze in een directory op de Pi en draai het *install.sh* script. Aan het eind vindt een check van de implementatie plaats. Bij problemen kan script *check-installation.sh* worden gedraaid, dit script test of alle noodzakelijke componenten aanwezig zijn.
 
 De fotobestanden staan in de directory photos onder de installatie. Ik heb dit niet configureerbaar gemaakt om het zo eenduidig mogelijk te houden.
 
@@ -39,6 +39,8 @@ Het installatiescript installeert een service, zodat de webserver wordt gestart 
 Voordat je de software verwijdert eerst het *uninstall.sh* script draaien. Daarna kan de directory worden verwijderd. De geinstalleerde software pakketten worden niet verwijderd door het uninstall.sh script.
 
 Upgraden kan door de nieuwe versie te downloaden, over de bestaande installatie te unzippen, en dan het install script weer te draaien.
+
+**Let op bij oudere installaties:** de ZIP bevat nu de map `MicroPiHQ/`. Heeft de bestaande installatie een andere mapnaam, kopieer dan de inhoud van `MicroPiHQ/` naar de bestaande installatiemap en voer dáár `./install.sh` uit. De bestaande `photos/` en `.env.local` blijven daarbij behouden.
 
 # functies
 
@@ -116,7 +118,7 @@ De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden
 
 ## Field of view
 
-Deze waarde wordt door MicroRasp alleen gebruikt om in het exif bestand deze als parameter op te nemen. Het *mertens.sh* script kopieert deze waardes eveneens naar de gegenereerde afbeeldingen.
+Deze waarde wordt door MicroPiHQ alleen gebruikt om in het exif bestand deze als parameter op te nemen. Het *mertens.sh* script kopieert deze waardes eveneens naar de gegenereerde afbeeldingen.
 
 ## Witbalans
 
