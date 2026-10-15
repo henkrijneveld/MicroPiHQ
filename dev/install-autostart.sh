@@ -2,13 +2,18 @@
 
 set -euo pipefail
 
-SERVICE_NAME="microscope-picam2"
+SERVICE_NAME="micropihq"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RUN_USER="${SUDO_USER:-$(id -un)}"
 RUN_GROUP="$(id -gn "$RUN_USER")"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
-POWEROFF_HELPER="/usr/local/sbin/microscope-picam2-poweroff"
-SUDOERS_FILE="/etc/sudoers.d/microscope-picam2-poweroff"
+POWEROFF_HELPER="/usr/local/sbin/micropihq-poweroff"
+SUDOERS_FILE="/etc/sudoers.d/micropihq-poweroff"
+
+LEGACY_SERVICE_NAME="microscope-picam2"
+LEGACY_SERVICE_FILE="/etc/systemd/system/${LEGACY_SERVICE_NAME}.service"
+LEGACY_POWEROFF_HELPER="/usr/local/sbin/microscope-picam2-poweroff"
+LEGACY_SUDOERS_FILE="/etc/sudoers.d/microscope-picam2-poweroff"
 SYSTEMCTL="$(command -v systemctl)"
 
 cd "$ROOT_DIR"
@@ -32,7 +37,7 @@ trap 'rm -f "$SERVICE_TMP" "$HELPER_TMP" "$SUDOERS_TMP"' EXIT
 
 cat > "$SERVICE_TMP" <<EOF
 [Unit]
-Description=Microscope Picam2 webserver
+Description=MicroPiHQ webserver
 After=network.target
 
 [Service]
@@ -62,12 +67,21 @@ if ! sudo visudo -cf "$SUDOERS_TMP" >/dev/null; then
   exit 1
 fi
 
+echo "Stopping existing and previous web services..."
+sudo systemctl stop "$SERVICE_NAME.service" 2>/dev/null || true
+sudo systemctl stop "$LEGACY_SERVICE_NAME.service" 2>/dev/null || true
+
 echo "Installing poweroff helper..."
 sudo install -o root -g root -m 0755 "$HELPER_TMP" "$POWEROFF_HELPER"
 sudo install -o root -g root -m 0440 "$SUDOERS_TMP" "$SUDOERS_FILE"
 
 echo "Installing systemd service as $SERVICE_NAME..."
 sudo cp "$SERVICE_TMP" "$SERVICE_FILE"
+if [ -f "$LEGACY_SERVICE_FILE" ]; then
+  sudo systemctl disable --now "$LEGACY_SERVICE_NAME.service" 2>/dev/null || true
+  sudo rm -f "$LEGACY_SERVICE_FILE"
+fi
+sudo rm -f "$LEGACY_POWEROFF_HELPER" "$LEGACY_SUDOERS_FILE"
 sudo systemctl daemon-reload
 sudo systemctl enable "$SERVICE_NAME.service"
 sudo systemctl restart "$SERVICE_NAME.service"
