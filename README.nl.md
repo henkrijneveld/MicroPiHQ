@@ -102,6 +102,8 @@ De nabewerking van de foto's zal meestal stuk voor stuk moeten gebeuren voor het
 
 Als het stackframes betreft wordt er een directory gegenereerd YYMMDD-HHMMSS-focusstack waarin voor elk frame een .tif bestand wordt gemaakt (als er gebruik werd gemaakt van brackets), of een .jpg als het enkele foto's betreft. Deze kan dan in een stacking programma worden verder bewerkt.
 
+Voor het verwerken van alle sets in een map is er ook *mertensall.sh*. Voer in de photos-directory `./mertensall.sh` uit, of geef een andere map op met `./mertensall.sh /pad/naar/photos`. Het script zoekt alle unieke YYMMDD-HHMMSS-series met AEB-brackets of focusstackframes en roept voor elke serie *mertens.sh* aan. Gewone losse foto's worden overgeslagen. Bij opnieuw uitvoeren worden de gegenereerde resultaten opnieuw gemaakt; de oorspronkelijke foto's blijven behouden.
+
 # Aandachtspunten
 
 ## Resolutie preview
