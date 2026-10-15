@@ -46,7 +46,7 @@ check_executable() {
   fi
 }
 
-echo "MicroRasp installation check"
+echo "MicroPiHQ installation check"
 echo "Directory: $ROOT_DIR"
 echo "User:      $RUN_USER"
 echo
@@ -121,7 +121,7 @@ else
 fi
 
 if [ -x "$PYTHON" ]; then
-  if "$PYTHON" - <<'PY' >/tmp/microrasp-check-system-python.$$ 2>&1
+  if "$PYTHON" - <<'PY' >/tmp/micropihq-check-system-python.$$ 2>&1
 from pathlib import Path
 import libcamera
 import picamera2
@@ -130,19 +130,19 @@ path = Path(picamera2.__file__).resolve()
 print(path)
 PY
   then
-    PICAMERA_PATH="$(tail -n 1 /tmp/microrasp-check-system-python.$$)"
+    PICAMERA_PATH="$(tail -n 1 /tmp/micropihq-check-system-python.$$)"
     if [[ "$PICAMERA_PATH" == "$PYTHON_DIR/"* ]]; then
-      fail "Picamera2 comes from MicroRasp/python instead of the host system: $PICAMERA_PATH"
+      fail "Picamera2 comes from MicroPiHQ/python instead of the host system: $PICAMERA_PATH"
     else
       pass "Picamera2/libcamera via system Python ($PICAMERA_PATH)"
     fi
   else
     fail "Picamera2/libcamera cannot be imported with system Python"
-    sed 's/^/      /' /tmp/microrasp-check-system-python.$$ 2>/dev/null || true
+    sed 's/^/      /' /tmp/micropihq-check-system-python.$$ 2>/dev/null || true
   fi
-  rm -f /tmp/microrasp-check-system-python.$$
+  rm -f /tmp/micropihq-check-system-python.$$
 
-  if PYTHONPATH="$PYTHON_DIR" "$PYTHON" - <<'PY' >/tmp/microrasp-check-local-python.$$ 2>&1
+  if PYTHONPATH="$PYTHON_DIR" "$PYTHON" - <<'PY' >/tmp/micropihq-check-local-python.$$ 2>&1
 import fastapi
 import piexif
 import pydantic
@@ -155,12 +155,12 @@ print(
 )
 PY
   then
-    pass "MicroRasp Python-dependencies ($(tail -n 1 /tmp/microrasp-check-local-python.$$))"
+    pass "MicroPiHQ Python-dependencies ($(tail -n 1 /tmp/micropihq-check-local-python.$$))"
   else
-    fail "MicroRasp Python dependencies cannot be imported"
-    sed 's/^/      /' /tmp/microrasp-check-local-python.$$ 2>/dev/null || true
+    fail "MicroPiHQ Python dependencies cannot be imported"
+    sed 's/^/      /' /tmp/micropihq-check-local-python.$$ 2>/dev/null || true
   fi
-  rm -f /tmp/microrasp-check-local-python.$$
+  rm -f /tmp/micropihq-check-local-python.$$
 fi
 
 if [ -d "$ROOT_DIR/photos" ]; then
@@ -302,12 +302,12 @@ echo
 echo "Result: $PASS_COUNT OK, $WARN_COUNT warning(s), $FAIL_COUNT failure(s)."
 
 if [ "$FAIL_COUNT" -gt 0 ]; then
-  echo "MicroRasp installation is NOT fully operational."
+  echo "MicroPiHQ installation is NOT fully operational."
   exit 1
 fi
 
 if [ "$WARN_COUNT" -gt 0 ]; then
-  echo "MicroRasp installation is operational, with the warning(s) above."
+  echo "MicroPiHQ installation is operational, with the warning(s) above."
 else
-  echo "MicroRasp installation is fully operational."
+  echo "MicroPiHQ installation is fully operational."
 fi
