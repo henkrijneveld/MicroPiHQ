@@ -4,7 +4,7 @@ import { createApp, watch } from 'vue'
 import App from './App.vue'
 import { language, t } from './translations.js'
 
-const FOCUS_STACK_STORAGE_KEY = 'microrasp-focus-stack'
+const FOCUS_STACK_STORAGE_KEY = 'micropihq-focus-stack'
 const FILE_ROW_HEIGHT = 32
 const FILE_ROW_GAP = 3
 const FILES_PER_PAGE = {
@@ -192,8 +192,8 @@ window.fetch = async function micropihqFetch(input, init = undefined) {
     const headers = new Headers(
       init?.headers || (typeof input !== 'string' ? input.headers : undefined),
     )
-    headers.set('X-Microrasp-Stack-Timestamp', stackTimestamp)
-    headers.set('X-Microrasp-Stack-Number', String(stackNumber))
+    headers.set('X-Micropihq-Stack-Timestamp', stackTimestamp)
+    headers.set('X-Micropihq-Stack-Number', String(stackNumber))
     nextInit = {
       ...(init || {}),
       headers,
