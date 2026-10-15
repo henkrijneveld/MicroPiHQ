@@ -68,18 +68,18 @@ function renderSystemStatus() {
   }
 
   if (statusError) {
-    setSystemStatus(`MicroRasp: ${t('common.error')}`, statusError)
+    setSystemStatus(`MicroPiHQ: ${t('common.error')}`, statusError)
     return
   }
 
   if (!statusResult) {
-    setSystemStatus('MicroRasp', t('common.loadingStatus'))
+    setSystemStatus('MicroPiHQ', t('common.loadingStatus'))
     return
   }
 
   if (!statusResult.camera?.connected) {
     setSystemStatus(
-      `MicroRasp: ${t('common.error')}`,
+      `MicroPiHQ: ${t('common.error')}`,
       [t('status.cameraNotConnected'), statusResult.camera?.error].filter(Boolean).join(' · '),
     )
     return
@@ -91,7 +91,7 @@ function renderSystemStatus() {
     statusResult.camera.ip_address || '—',
   ].join(' · ')
 
-  setSystemStatus(`MicroRasp: ${statusResult.status}`, detail)
+  setSystemStatus(`MicroPiHQ: ${statusResult.status}`, detail)
 }
 
 function renderPhotoMessage() {
