@@ -9,8 +9,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from . import main as core
 
 
-STACK_TIMESTAMP_HEADER = "x-microrasp-stack-timestamp"
-STACK_NUMBER_HEADER = "x-microrasp-stack-number"
+STACK_TIMESTAMP_HEADER = "x-micropihq-stack-timestamp"
+STACK_NUMBER_HEADER = "x-micropihq-stack-number"
 STACK_TIMESTAMP_PATTERN = re.compile(r"^\d{6}-\d{6}$")
 
 stack_timestamp_context = ContextVar("stack_timestamp", default=None)
