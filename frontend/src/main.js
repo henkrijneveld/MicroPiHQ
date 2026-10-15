@@ -178,7 +178,7 @@ function isPhotoRequest(input, init) {
   }
 }
 
-window.fetch = async function microraspFetch(input, init = undefined) {
+window.fetch = async function micropihqFetch(input, init = undefined) {
   if (!isPhotoRequest(input, init)) {
     return nativeFetch(input, init)
   }
@@ -302,7 +302,7 @@ async function loadFilesSystemStatus(layout) {
   }
 
   layout.dataset.statusLoading = 'true'
-  statusText.textContent = 'MicroRasp · ' + t('common.loadingStatus')
+  statusText.textContent = 'MicroPiHQ · ' + t('common.loadingStatus')
 
   try {
     const response = await nativeFetch('/api/status')
@@ -314,19 +314,19 @@ async function loadFilesSystemStatus(layout) {
     const result = await response.json()
 
     if (!result.camera?.connected) {
-      statusText.textContent = 'MicroRasp: ' + t('common.error').toLowerCase()
+      statusText.textContent = 'MicroPiHQ: ' + t('common.error').toLowerCase()
         + ' · ' + t('status.cameraNotConnected')
       return
     }
 
     statusText.textContent = [
-      'MicroRasp: ' + result.status,
+      'MicroPiHQ: ' + result.status,
       result.camera.model || t('common.unknownModel'),
       result.camera.hostname || '—',
       result.camera.ip_address || '—',
     ].join(' · ')
   } catch (error) {
-    statusText.textContent = 'MicroRasp: ' + t('common.error').toLowerCase()
+    statusText.textContent = 'MicroPiHQ: ' + t('common.error').toLowerCase()
       + ' · ' + error.message
   } finally {
     delete layout.dataset.statusLoading
