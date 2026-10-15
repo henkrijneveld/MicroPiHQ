@@ -30,7 +30,7 @@ LIVE_SIZE = PREVIEW_RESOLUTIONS[preview_resolution]
 LIVE_SENSOR_SIZE = (2028, 1520)
 PHOTO_DIR = PROJECT_DIR / "photos"
 FRONTEND_DIST = PROJECT_DIR / "frontend" / "dist"
-POWEROFF_HELPER = Path("/usr/local/sbin/microscope-picam2-poweroff")
+POWEROFF_HELPER = Path("/usr/local/sbin/micropihq-poweroff")
 
 AEB_TIMEOUT_SECONDS = 5.0
 WHITE_BALANCE_TIMEOUT_SECONDS = 5.0
@@ -661,7 +661,7 @@ def build_photo_metadata(
     active_colour_gains = captured_metadata.get("ColourGains")
 
     return {
-        "microscope_picam2": {
+        "micropihq": {
             "name": requested_name,
             "filename": filename,
             "capture_time": capture_time.isoformat(timespec="seconds"),
