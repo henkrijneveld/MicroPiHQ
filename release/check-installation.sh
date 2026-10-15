@@ -58,6 +58,8 @@ check_file "$ROOT_DIR/requirements.txt" "Python requirements"
 check_executable "$ROOT_DIR/run.sh" "Start script"
 check_executable "$ROOT_DIR/resources/mertens.sh" "Canonical Mertens script"
 check_executable "$ROOT_DIR/photos/mertens.sh" "Mertens-script in photos"
+check_executable "$ROOT_DIR/resources/mertensall.sh" "Canonical batch Mertens script"
+check_executable "$ROOT_DIR/photos/mertensall.sh" "Batch Mertens script in photos"
 
 if [ -f "$ROOT_DIR/resources/mertens.sh" ] && [ -f "$ROOT_DIR/photos/mertens.sh" ]; then
   if cmp -s "$ROOT_DIR/resources/mertens.sh" "$ROOT_DIR/photos/mertens.sh"; then
@@ -71,6 +73,21 @@ if [ -f "$ROOT_DIR/resources/mertens.sh" ] && [ -f "$ROOT_DIR/photos/mertens.sh"
     pass "Mertens-script in photos is read-only (0555)"
   else
     fail "Mertens script in photos has mode $MERTENS_MODE instead of 0555"
+  fi
+fi
+
+if [ -f "$ROOT_DIR/resources/mertensall.sh" ] && [ -f "$ROOT_DIR/photos/mertensall.sh" ]; then
+  if cmp -s "$ROOT_DIR/resources/mertensall.sh" "$ROOT_DIR/photos/mertensall.sh"; then
+    pass "Batch Mertens script in photos is up to date"
+  else
+    fail "Batch Mertens script in photos differs from the canonical copy"
+  fi
+
+  MERTENSALL_MODE="$(stat -c '%a' "$ROOT_DIR/photos/mertensall.sh" 2>/dev/null || true)"
+  if [ "$MERTENSALL_MODE" = "555" ]; then
+    pass "Batch Mertens script in photos is read-only (0555)"
+  else
+    fail "Batch Mertens script in photos has mode $MERTENSALL_MODE instead of 0555"
   fi
 fi
 
