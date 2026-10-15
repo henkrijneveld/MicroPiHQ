@@ -1,14 +1,14 @@
-# Microscope-Picam2
+# MicroPiHQ (Microscope-Picam2)
 
 Microscope camera based on Raspberry Pi, HQ Camera and Picamera2.
 
 ## Production / new Raspberry Pi
 
-A production installation does **not** use a virtual environment. MicroRasp always
+A production installation does **not** use a virtual environment. MicroPiHQ always
 uses the Raspberry Pi OS system interpreter at `/usr/bin/python3`.
 
 Picamera2 and libcamera are installed through `apt`. The remaining Python
-dependencies are installed locally in the MicroRasp directory under `python/`.
+dependencies are installed locally in the MicroPiHQ directory under `python/`.
 
 ### Build a release
 
@@ -22,7 +22,7 @@ This creates:
 
 ```text
 dist/
-├── MicroRasp/
+├── MicroPiHQ/
 │   ├── backend/
 │   ├── frontend/
 │   │   └── dist/
@@ -42,14 +42,14 @@ dist/
 │   ├── stop.sh
 │   ├── enable-autostart.sh
 │   └── disable-autostart.sh
-└── MicroRasp.zip
+└── MicroPiHQ.zip
 ```
 
 The distribution directory and ZIP are generated locally and ignored by Git.
-Upload `dist/MicroRasp.zip` as the binary asset for a GitHub Release.
+Upload `dist/MicroPiHQ.zip` as the binary asset for a GitHub Release.
 
 The canonical Mertens helper is stored in `resources/mertens.sh`. At every
-MicroRasp service start, `run.sh` recreates `photos/mertens.sh` from that
+MicroPiHQ service start, `run.sh` recreates `photos/mertens.sh` from that
 copy and sets it to read-only mode `0555`. This means the photos directory can
 be emptied through SFTP or a file manager without permanently losing the helper;
 a service restart restores it automatically.
@@ -64,11 +64,11 @@ the stacking order.
 
 ### Install on a new Pi
 
-Copy `MicroRasp.zip` to the final location on the Pi, then:
+Copy `MicroPiHQ.zip` to the final location on the Pi, then:
 
 ```bash
-unzip MicroRasp.zip
-cd MicroRasp
+unzip MicroPiHQ.zip
+cd MicroPiHQ
 ./install.sh
 ```
 
@@ -85,26 +85,26 @@ The installer:
 The application is then available on port 8000.
 
 Autostart is enabled by default during installation. To disable or re-enable
-autostart without uninstalling MicroRasp:
+autostart without uninstalling MicroPiHQ:
 
 ```bash
 ./disable-autostart.sh
 ./enable-autostart.sh
 ```
 
-These scripts only change whether MicroRasp starts automatically at boot.
+These scripts only change whether MicroPiHQ starts automatically at boot.
 Use `./start.sh` and `./stop.sh` to control the currently running service.
 
 ### Uninstall
 
-To remove the MicroRasp systemd service, poweroff helper and sudoers rule:
+To remove the MicroPiHQ systemd service, poweroff helper and sudoers rule:
 
 ```bash
 ./uninstall.sh
 ```
 
-The uninstall script deliberately leaves the MicroRasp directory, local Python
-packages and captured photos untouched. Remove the MicroRasp directory manually
+The uninstall script deliberately leaves the MicroPiHQ directory, local Python
+packages and captured photos untouched. Remove the MicroPiHQ directory manually
 afterwards if it is no longer needed. System packages installed through `apt`
 are not removed because they may be used by other software.
 
@@ -131,7 +131,7 @@ SATURATION_FACTOR=2.0
 
 Hostname and IP address are read from the Pi itself.
 
-To override one of the defaults, create `.env.local` in the MicroRasp
+To override one of the defaults, create `.env.local` in the MicroPiHQ
 directory, for example:
 
 ```bash
@@ -141,7 +141,7 @@ SATURATION_FACTOR=2
 
 ## Development
 
-The existing development workflow remains separate from the production release.
+The existing development workflow remains separate from the production release. The repository name, development deployment path and systemd service name remain unchanged.
 
 The development Pi can continue to use `sync-dev.sh`, `runback.sh` and the
 existing `.venv`. This is intentionally independent of the release package.
