@@ -1,6 +1,6 @@
 [English](README.md) | [Nederlands](README.nl.md)
 
-# MicroPiHQ (Microscope-Picam2)
+# MicroPiHQ
 
 Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een microscoop of voor macro-opnames. Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. Het doel is het maken en opslaan van foto's, video wordt ondersteund voor preview maar niet om op te slaan.
 
