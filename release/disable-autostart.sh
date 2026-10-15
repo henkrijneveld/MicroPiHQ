@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-SERVICE_NAME="microscope-picam2"
+SERVICE_NAME="micropihq"
 
 sudo systemctl disable "$SERVICE_NAME.service"
 echo "$SERVICE_NAME autostart disabled."
