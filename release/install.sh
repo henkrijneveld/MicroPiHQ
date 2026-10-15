@@ -36,6 +36,11 @@ if [ ! -f "$ROOT_DIR/resources/mertens.sh" ]; then
   exit 1
 fi
 
+if [ ! -f "$ROOT_DIR/resources/mertensall.sh" ]; then
+  echo "Canonical batch Mertens script is missing: $ROOT_DIR/resources/mertensall.sh" >&2
+  exit 1
+fi
+
 if [ ! -f "$ROOT_DIR/frontend/dist/index.html" ]; then
   echo "Frontend build is missing from $ROOT_DIR/frontend/dist." >&2
   exit 1
@@ -101,7 +106,7 @@ print("MicroRasp Python-dependencies OK")
 PY
 
 chmod +x "$ROOT_DIR/run.sh" "$ROOT_DIR/start.sh" "$ROOT_DIR/stop.sh" "$ROOT_DIR/check-installation.sh"
-chmod 0555 "$ROOT_DIR/resources/mertens.sh"
+chmod 0555 "$ROOT_DIR/resources/mertens.sh" "$ROOT_DIR/resources/mertensall.sh"
 
 SYSTEMCTL="$(command -v systemctl)"
 SERVICE_TMP="$(mktemp)"
