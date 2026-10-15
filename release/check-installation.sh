@@ -2,14 +2,14 @@
 
 set -u
 
-SERVICE_NAME="microscope-picam2"
+SERVICE_NAME="micropihq"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON="/usr/bin/python3"
 PYTHON_DIR="$ROOT_DIR/python"
 PYTHON_TAG_FILE="$PYTHON_DIR/.python-tag"
 RUN_USER="${SUDO_USER:-$(id -un)}"
-POWEROFF_HELPER="/usr/local/sbin/microscope-picam2-poweroff"
-SUDOERS_FILE="/etc/sudoers.d/microscope-picam2-poweroff"
+POWEROFF_HELPER="/usr/local/sbin/micropihq-poweroff"
+SUDOERS_FILE="/etc/sudoers.d/micropihq-poweroff"
 
 PASS_COUNT=0
 WARN_COUNT=0
