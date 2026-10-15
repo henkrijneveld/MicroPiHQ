@@ -72,6 +72,9 @@ cd MicroPiHQ
 ./install.sh
 ```
 
+The installer also removes the previously installed service and shutdown-helper
+names when upgrading from earlier versions.
+
 The installer:
 
 - installs `python3-picamera2` and `python3-pip` through apt;
