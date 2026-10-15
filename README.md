@@ -143,8 +143,6 @@ I do not accept pull requests. In this age of AI, I resolve issues myself to ret
 
 I am a gemologist and a software developer. Because I have several microscopes, I was looking for a way to equip each of them with a lightweight camera. Support for HDR and focus stacks was also essential. The Pi + HQ hardware is (was?) cheaper, more flexible and lighter than a DSLR. Since I have four Pi/HQ setups, each microscope has its own permanent installation. I could not find a package for the Pi that offered the features I wanted. Five years ago I built something similar, but its drivers are no longer supported by the new OS. In 2021 I programmed everything myself; this 2026 package was vibe-coded in enjoyable collaboration with ChatGPT 5.6 Sol.
 
-The basic software was ready in a week. Turning it into a distributable product took another ten times as long.
-
 ## Effect of HDR
 
 <a href="pictures/hanger-tektiet-contrast.jpg">
