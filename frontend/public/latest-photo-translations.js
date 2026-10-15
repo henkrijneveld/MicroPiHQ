@@ -3,7 +3,7 @@ const SUPPORTED_LANGUAGES = new Set(['nl', 'en'])
 
 const translations = {
   nl: {
-    'page.title': 'MicroRasp - Laatste foto',
+    'page.title': 'MicroPiHQ - Laatste foto',
     'aria.mainNavigation': 'Hoofdnavigatie',
     'aria.language': 'Taal',
     'aria.latestHdr': 'Laatste HDR-opnamen',
@@ -35,7 +35,7 @@ const translations = {
   },
 
   en: {
-    'page.title': 'MicroRasp - Latest photo',
+    'page.title': 'MicroPiHQ - Latest photo',
     'aria.mainNavigation': 'Main navigation',
     'aria.language': 'Language',
     'aria.latestHdr': 'Latest HDR captures',
