@@ -55,7 +55,7 @@ as_root apt-get install -y --no-install-recommends \
   python3-pip \
   sudo
 
-# The webserver runs as the user who installed MicroRasp and must be able
+# The webserver runs as the user who installed MicroPiHQ and must be able
 # to create photos even when install.sh itself was started with sudo.
 as_root chown "$RUN_USER:$RUN_GROUP" "$ROOT_DIR/photos"
 
@@ -71,10 +71,10 @@ import libcamera
 print("Picamera2/libcamera OK")
 PY
 
-echo "Stopping existing MicroRasp service if present..."
+echo "Stopping existing MicroPiHQ service if present..."
 as_root systemctl stop "$SERVICE_NAME.service" 2>/dev/null || true
 
-echo "Installing MicroRasp Python dependencies..."
+echo "Installing MicroPiHQ Python dependencies..."
 rm -rf "$PYTHON_DIR"
 mkdir -p "$PYTHON_DIR"
 touch "$PYTHON_DIR/.gitkeep"
@@ -102,7 +102,7 @@ from picamera2 import Picamera2
 print("FastAPI", fastapi.__version__)
 print("Pydantic", pydantic.__version__)
 print("Uvicorn", uvicorn.__version__)
-print("MicroRasp Python-dependencies OK")
+print("MicroPiHQ Python-dependencies OK")
 PY
 
 chmod +x "$ROOT_DIR/run.sh" "$ROOT_DIR/start.sh" "$ROOT_DIR/stop.sh" "$ROOT_DIR/check-installation.sh"
@@ -116,7 +116,7 @@ trap 'rm -f "$SERVICE_TMP" "$HELPER_TMP" "$SUDOERS_TMP"' EXIT
 
 cat > "$SERVICE_TMP" <<EOF
 [Unit]
-Description=MicroRasp microscope camera webserver
+Description=MicroPiHQ microscope camera webserver
 After=network.target
 
 [Service]
@@ -165,7 +165,7 @@ echo "Checking installation..."
 "$ROOT_DIR/check-installation.sh"
 
 echo
-echo "MicroRasp is installed and verified."
+echo "MicroPiHQ is installed and verified."
 echo "Python:   $("$PYTHON" --version 2>&1) ($PYTHON_TAG)"
 echo "Hostname: $(hostname)"
 echo "Web:      http://$(hostname).local:8000/"
