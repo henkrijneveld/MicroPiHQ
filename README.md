@@ -43,7 +43,7 @@ Before removing the software, first run *uninstall.sh*. The directory can then b
 
 To upgrade, download the new version, extract it over the existing installation, and run the installation script again.
 
-**Note for older installations:** the ZIP now contains a `MicroPiHQ/` directory. If your current installation has a different directory name, copy the contents of `MicroPiHQ/` into your existing installation directory and run `./install.sh` there. This preserves the existing `photos/` directory and `.env.local` configuration.
+**Note for older installations:** the ZIP now contains a `MicroPiHQ/` directory. If your current installation has a different directory name, copy the contents of `MicroPiHQ/` into your existing installation directory and run `./install.sh` there. This preserves the existing `photos/` directory and `.env.local` configuration. `install.sh` also replaces the previous systemd service with `micropihq.service` and removes the obsolete shutdown helper.
 
 # Features
 
