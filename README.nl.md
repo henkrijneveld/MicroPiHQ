@@ -1,8 +1,10 @@
-[English](README.md) | [Nederlands](README.nl.md)
+git adf[English](README.md) | [Nederlands](README.nl.md)
 
 # MicroPiHQ
 
-Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een microscoop of voor macro-opnames. Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. Het doel is het maken en opslaan van foto's, video wordt ondersteund voor preview maar niet om op te slaan.
+Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een microscoop en voor macro-opnames. Het doel is het maken en opslaan van foto's, video wordt ondersteund voor preview. Softwarematige HDR. Instellen witbalans en belichting. Moderne state of the art interactieve gebruikersinterface. Gericht op praktisch gebruik. Eenvoudig installeerbaar met een enkel script.
+
+Dit is een nieuwe versie van Microscope-Picam, maar nu gebaseerd op libcamera en Picamera2. 
 
 <a href="pictures/scherm-1.jpg">
   <img src="pictures/scherm-1.jpg" width="650" alt="Camera-interface">
@@ -12,7 +14,7 @@ Pakket voor het gebruik van de HQ camera en een raspberry Pi, specifiek voor een
 
 # Technisch
 
-De Pi en de camera zijn via cmount aan de reductielens van de microscop of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
+De Pi en de camera zijn via cmount aan de reductielens van de microscoop of een objectief verbonden. De communicatie is via wifi. Alleen een voedingskabel is nodig voor de Pi. De software werkt vanaf Pi3B, waarbij werking op de Pi3B+ en Pi4 daadwerkelijk getest is. Op de Pi draait een kleine webserver, zodat de camera via een browser in het netwerk kan worden bestuurd. Uitgangspunt is dat de camera alleen lokaal wordt gebruikt, er is dus geen toegangsbeveiliging. Iedereen met toegang tot de Pi via het netwerk kan de software gebruiken. 
 
 De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worden gelezen. Het is natuurlijk ook mogelijk om de desktop op de Pi te activeren. Daarnaast kan de terminal worden gebruikt.
 
@@ -40,35 +42,41 @@ Voordat je de software verwijdert eerst het *uninstall.sh* script draaien. Daarn
 
 Upgraden kan door de nieuwe versie te downloaden, over de bestaande installatie te unzippen, en dan het install script weer te draaien.
 
-**Let op bij oudere installaties:** de ZIP bevat nu de map `MicroPiHQ/`. Heeft de bestaande installatie een andere mapnaam, kopieer dan de inhoud van `MicroPiHQ/` naar de bestaande installatiemap en voer dáár `./install.sh` uit. De bestaande `photos/` en `.env.local` blijven daarbij behouden. `install.sh` vervangt daarbij automatisch de oude systemd-service door `micropihq.service` en verwijdert de bijbehorende verouderde shutdown-helper.
+<a href="pictures/inbedrijf.jpg">
+  <img src="pictures/inbedrijf.jpg" width="650" alt="Camera-in-bedrijf">
+</a>
+
+*De ideale werkwijze: Raspberry pi en HQ camera op de microscoop, verbonden met slechts een dunne USB voedingskabel. Besturen via een tablet of ander platform met een webbrowser. Nabewerking van de opnames later op een desktop. Doordat de camera en Pi bijna niets wegen een stabiele verbinding met de microscoop. De sluiter en andere controls zitten op de tablet, dus geen trillingen op het beeld als deze worden gebruikt*
 
 # functies
 
-Gewone foto's
+**Gewone foto's**
 
-Standaard bracket foto's, zowel drievoudig -1.5 EV, 0, 1.5 EV als vijfvoudig, -3 EV, -1.5 EV, 0, +1.5 EV, +3 EV. De stapgrootte is aan te passen in de .env.local.
+**Standaard bracket foto's**, zowel drievoudig -1.5 EV, 0, 1.5 EV als vijfvoudig, -3 EV, -1.5 EV, 0, +1.5 EV, +3 EV. De stapgrootte is aan te passen in de .env.local.
 
-Handmatige stack. Na activatie wordt na elk frame het nummer automatisch verhoogt en blijft de YYMMDD-HHMMSS van het bestand ongewijzigd tussen de verschillende frames.
+**Handmatige stack**. Na activatie wordt na elk frame het nummer automatisch verhoogt en blijft de YYMMDD-HHMMSS van het bestand ongewijzigd tussen de verschillende frames.
 
-Ingave Field Of View (handmatig)
+Een apart **nabewerkingsscript** om de HDR-brackets en de stack foto's automatisch in batch te verwerken. Dit kan op een andere machine worden gedaan. De Pi is daar minder geschikt voor.
 
-Automatische belichting (met of zonder correctie) in twee modes: zowel analoge versterker en sluitertijd zijn variabel, of alleen de sluitertijd en de versterking altijd op minimum (1x). dit laatste reduceert de ruis. Daarnaast een handmatige mode. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. 
+Ingave **Field Of View** (handmatig)
 
-Kleurverzadigingsinstelling
+**Automatische belichting** (met of zonder correctie) in twee modes: zowel analoge versterker en sluitertijd zijn variabel, of alleen de sluitertijd en de versterking altijd op minimum (1x). dit laatste reduceert de ruis. Daarnaast een **handmatige belichting**. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. 
 
-Histogram
+**Kleurverzadigingsinstelling**
 
-Witbalans. Kan zowel automatisch als handmatig. de praktijk leert dat handmatig bijna altijd noodzakelijk is bij microscoopgebruik. De knop setWB maakt de groen, rood en blauwintensiteiten gelijk. Leg daarvoor een wit vlak voor de camera zodat de juiste witbalans wordt ingesteld.
+**Histogram**
 
-Liveview: naast de camera de liveview. Hier wordt het live microscoopbeeld getoond 
+**Witbalans**. Kan zowel automatisch als handmatig. de praktijk leert dat handmatig bijna altijd noodzakelijk is bij microscoopgebruik. De knop setWB maakt de groen, rood en blauwintensiteiten gelijk. Leg daarvoor een wit vlak voor de camera zodat de juiste witbalans wordt ingesteld. Instellen van de **rood- en de blauwversterkingsfactor**.
 
-Linksboven een bestanden tab. Dit is een heel rudimentaire filebrowser waar beeldbestanden zijn te downloaden. De software gaat ervan uit de bij normaal gebruik via een terminal of SFTP de photos directory wordt benaderd. Gebruik SFTP vereist dat op de Pi SSH is ingeschakeld.
+**Fullscreen liveview**: naast de camera de liveview. Hier wordt het live microscoopbeeld getoond 
 
-Dan een tab laatste foto. Alle afbeeldingen / brackets van de laatste foto worden getoond om een indruk te geven
+Linksboven een bestanden tab. Dit is een heel **rudimentaire filebrowser** waar beeldbestanden zijn te downloaden. De software gaat ervan uit de bij normaal gebruik via een terminal of SFTP de photos directory wordt benaderd. Gebruik SFTP vereist dat op de Pi SSH is ingeschakeld.
 
-Tenslotte de tab "Stop Pi". Dit geeft de Pi een shutdown signaal waardoor de verbinding met de camera wordt verbroken.
+Dan een tab **toon laatste foto**. Alle afbeeldingen / brackets van de laatste foto worden getoond om een indruk te geven
 
-Rechtsboven een taalinstelling: NL of EN
+Tenslotte de tab **"Stop Pi"**. Dit geeft de Pi een shutdown signaal waardoor de verbinding met de camera wordt verbroken.
+
+Rechtsboven een **taalinstelling**: NL of EN
 
 <a href="pictures/scherm-3.jpg">
   <img src="pictures/scherm-3.jpg" width="650" alt="Camera-tab">
@@ -126,7 +134,7 @@ De witbalans kan het beste worden ingesteld door een wit vlak met de te gebruike
 
 ## Stabilisatie camera na wijzigingen
 
-Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Geef het apparaat gewoon de tijd daarvoor. Dit geldt in het bijzonder bij de instelling Auto 1x of een manual instelling met lage versterking. Laat de Pi even zijn gang gaan!
+Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden tot een seconde of acht) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Dit is standaard gedrag van de Pi en geef het apparaat gewoon de tijd daarvoor. Dit geldt in het bijzonder bij de instelling Auto 1x, een handmatige instelling met lage versterking, of lange sluiterdtijden. Laat de Pi even zijn gang gaan!
 
 # Github pull requests, github issues
 
@@ -138,8 +146,7 @@ Ik accepteer geen pull requests. In deze AI tijd los ik deze zelf op om ook de c
 
 # Achtergrond
 
-Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar een oplossing om deze alle te voorzien van vooral een lichtgewicht camera. Daarbij was ookondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is (was?) goedkoper en flexibeler
-en minder zwaar dan een DSLR. En doordat ik vier Pi/HQ instanties heb
+Ik ben een edelsteenkundige (gemmoloog), en een software-ontwikkelaar. Omdat ik een aantal microscopen heb, zocht ik naar een oplossing om deze alle te voorzien van vooral een lichtgewicht camera. Daarbij was ookondersteuning van HDR en focus stacks noodzakelijk. De hardware van Pi + HQ is flexibeler en minder zwaar vangewicht dan een DSLR. En doordat ik vier Pi/HQ instanties heb
 heeft iedere microscoop zijn eigen permanente installatie. ik vond geen pakket voor de Pi die dit biedt 
 met de door mij gewenste functies. Vijf jaar geleden heb ik iets soortgelijks gebouwd, maar de drivers worden niet meer ondersteund door 
 het nieuwe OS. In 2021 programmeerde ik alles zelf, dit pakket uit 2026 is gevibecode in aardige samenwerking met Chatgpt 5.6 Sol
