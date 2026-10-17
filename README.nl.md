@@ -1,4 +1,4 @@
-git adf[English](README.md) | [Nederlands](README.nl.md)
+[English](README.md) | [Nederlands](README.nl.md)
 
 # MicroPiHQ
 
@@ -38,9 +38,9 @@ De host die de camera benadert moet de Pi op poort 8000 kunnen bereiken.
 
 Het installatiescript installeert een service, zodat de webserver wordt gestart bij het starten van de Pi. Als dit niet gewenst is kan dit worden uitgezet met het script *disable-autostart.sh*. Met het script *enable-autostart.sh* kan het weer worden geactiveerd. Daarnaast is er een start en stop script om de webserver separaat te starten en te stoppen.
 
-Voordat je de software verwijdert eerst het *uninstall.sh* script draaien. Daarna kan de directory worden verwijderd. De geinstalleerde software pakketten worden niet verwijderd door het uninstall.sh script.
+Voordat je de software verwijdert eerst het *uninstall.sh* script draaien. Daarna kan de directory worden verwijderd. De geinstalleerde software pakketten worden niet verwijderd door het *uninstall.sh* script.
 
-Upgraden kan door de nieuwe versie te downloaden, over de bestaande installatie te unzippen, en dan het install script weer te draaien.
+Upgraden kan door de nieuwe versie te downloaden, over de bestaande installatie te unzippen, en dan het *install.sh* script weer te draaien.
 
 <a href="pictures/inbedrijf.jpg">
   <img src="pictures/inbedrijf.jpg" width="650" alt="Camera-in-bedrijf">
@@ -108,7 +108,7 @@ Bestandsnaam is YYMMDD-HHMMSS-[framenummer]-[ingevulde naam]-[AEB-[stops]].jpg
 
 # Bewerken bestanden
 
-De nabewerking van de foto's zal meestal stuk voor stuk moeten gebeuren voor het beste resultaat. Er is een script toegevoegd aan de photos directory, "mertens.sh". Deze gebruikt defaults om een eerste fotoset samen te stellen. Gebruik: ./mertens.sh YYMMDD-HHMMSS. Als het AEB brackets betreft wordt door middel van enfuse en magick bewerkt. Dit genereert de bestanden: YYMMDD-HHMMSS-[ingevulde naam].jpg. Daarnaast ook een .tif bestand voor mogelijk verdere verwerking. En een contrast verbeterd bestand YYMMDD-HHMMSS-[ingevulde naam]-contrast.jpg. Deze laatste kan soms behoorlijke kleurveranderingen opleveren, en soms gaat het helemaal goed.
+De nabewerking van de foto's zal meestal stuk voor stuk moeten gebeuren voor het beste resultaat. Er is een script toegevoegd aan de photos directory, *mertens.sh*. Deze gebruikt defaults om een eerste fotoset samen te stellen. Gebruik: `./mertens.sh YYMMDD-HHMMSS`. Als het AEB brackets betreft wordt door middel van enfuse en magick bewerkt. Dit genereert de bestanden: YYMMDD-HHMMSS-[ingevulde naam].jpg. Daarnaast ook een .tif bestand voor mogelijk verdere verwerking. En een contrast verbeterd bestand YYMMDD-HHMMSS-[ingevulde naam]-contrast.jpg. Deze laatste kan soms behoorlijke kleurveranderingen opleveren, en soms gaat het helemaal goed.
 
 Als het stackframes betreft wordt er een directory gegenereerd YYMMDD-HHMMSS-focusstack waarin voor elk frame een .tif bestand wordt gemaakt (als er gebruik werd gemaakt van brackets), of een .jpg als het enkele foto's betreft. Deze kan dan in een stacking programma worden verder bewerkt.
 
