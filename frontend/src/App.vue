@@ -1073,7 +1073,7 @@ onUnmounted(() => {
             :disabled="cameraControlBusy || photoBusy || exposure.mode === 'auto_1x'"
             @click="setExposureMode('auto_1x')"
           >
-            {{ t('exposure.auto1x') }}
+            {{ t('exposure.autoFixedGain', { gain: exposure.fixed_analogue_gain ?? 2 }) }}
           </button>
           <button
             :disabled="cameraControlBusy || photoBusy || exposure.mode === 'manual'"
