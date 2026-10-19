@@ -88,7 +88,7 @@ export const translations = {
     'preview.high': 'Hoog',
 
     'exposure.title': 'Belichting',
-    'exposure.auto1x': 'Auto 1×',
+    'exposure.autoFixedGain': 'Auto {gain}×',
     'exposure.shutterSpeed': 'Sluitertijd',
     'exposure.analogue': 'Analoog',
     'exposure.digital': 'Digitaal',
@@ -187,7 +187,7 @@ export const translations = {
     'preview.high': 'High',
 
     'exposure.title': 'Exposure',
-    'exposure.auto1x': 'Auto 1×',
+    'exposure.autoFixedGain': 'Auto {gain}×',
     'exposure.shutterSpeed': 'Shutter',
     'exposure.analogue': 'Analogue',
     'exposure.digital': 'Digital',
