@@ -130,6 +130,7 @@ No `.env.local` is required. Defaults are:
 ```text
 AEB_STOPS=1.5
 SATURATION_FACTOR=2.0
+AU_FIXED_GAIN=2.0
 ```
 
 Hostname and IP address are read from the Pi itself.
@@ -140,6 +141,7 @@ directory, for example:
 ```bash
 AEB_STOPS=1.5
 SATURATION_FACTOR=2
+AU_FIXED_GAIN=2
 ```
 
 ## Development
