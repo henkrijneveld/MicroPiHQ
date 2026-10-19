@@ -60,7 +60,7 @@ A separate **post-processing script** to batch-process HDR brackets and focus-st
 
 Manual entry of the **Field of View**.
 
-**Automatic exposure** (with or without compensation) in two modes: either both analogue gain and shutter speed vary automatically, or only the shutter speed varies while the gain remains at its minimum (1×). The latter reduces noise. There is also **manual exposure**. At 15 fps, the preview cannot use shutter speeds longer than 66 ms. Select 5 fps for longer shutter speeds in the preview. Currently, automatic exposure in the preview is limited to a maximum shutter speed of 120 ms.
+**Automatic exposure** (with or without compensation) has two modes: either both analogue gain and shutter speed vary automatically, or only the shutter speed varies while the gain stays fixed at a low value (2×). The latter reduces noise. **Manual exposure** is also available. At 15 fps, the preview cannot use shutter speeds longer than 66 ms. Select 5 fps for longer shutter speeds in the preview. Currently, automatic exposure in the preview is limited to a maximum shutter speed of 120 ms. The ISO value used in photography is roughly 100 times the analogue gain, so 2× gain corresponds to approximately ISO 200.
 
 **Saturation adjustment**
 
