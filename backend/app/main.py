@@ -158,7 +158,7 @@ white_balance_auto = True
 white_balance_gains: tuple[float, float] | None = None
 saturation_value = 1.0
 
-ALLOWED_FRAME_RATES = {1, 5, 15}
+ALLOWED_FRAME_RATES = {1, 2, 5, 15}
 ALLOWED_FOV_UNITS = {"µm", "mm", "cm"}
 
 
@@ -1156,7 +1156,7 @@ def set_framerate(settings: FrameRateSettings):
     if settings.fps not in ALLOWED_FRAME_RATES:
         raise HTTPException(
             status_code=400,
-            detail="Frame rate must be 15, 5 or 1 fps",
+            detail="Frame rate must be 15, 5, 2 or 1 fps",
         )
 
     frame_duration_us = round(1_000_000 / settings.fps)
