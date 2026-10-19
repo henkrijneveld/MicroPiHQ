@@ -183,6 +183,7 @@ if [ -f "$ROOT_DIR/.env.local" ]; then
   fi
 
   if "$PYTHON" - "$ROOT_DIR/.env.local" <<'PY' >/dev/null 2>&1
+import math
 import sys
 
 path = sys.argv[1]
@@ -201,11 +202,16 @@ if "AEB_STOPS" in values and float(values["AEB_STOPS"].replace(",", ".")) <= 0:
 
 if "SATURATION_FACTOR" in values and float(values["SATURATION_FACTOR"].replace(",", ".")) <= 1:
     raise ValueError("SATURATION_FACTOR must be > 1")
+
+if "AU_FIXED_GAIN" in values:
+    gain = float(values["AU_FIXED_GAIN"].replace(",", "."))
+    if not math.isfinite(gain) or gain <= 0:
+        raise ValueError("AU_FIXED_GAIN must be a finite number > 0")
 PY
   then
     pass ".env.local is valid"
   else
-    fail ".env.local contains an invalid AEB_STOPS or SATURATION_FACTOR"
+    fail ".env.local contains an invalid AEB_STOPS, SATURATION_FACTOR or AU_FIXED_GAIN"
   fi
 else
   pass "No .env.local: built-in defaults are used"
