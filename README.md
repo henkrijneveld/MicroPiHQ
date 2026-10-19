@@ -122,7 +122,7 @@ The preview defaults to high resolution (1280 × 960). If the network experience
 
 ## Exposure
 
-The Pi has two exposure settings: shutter speed in milliseconds and analogue gain as a multiplication factor. The least noise occurs with the lowest possible analogue gain: 1×. Since microscope subjects generally do not move, longer exposures are not a problem. In practice, it is best to start with fully automatic exposure, then switch to Auto 1×. The shutter speed may then reach its maximum limit, leaving the image too dark. If that happens, select 5 frames per second. The shutter speed can then increase to a maximum of 120 ms. Still too dark? Switch to manual exposure and set the shutter speed yourself. Of course, fully automatic exposure can also be used throughout, but noise may increase. Pay attention to the camera settling time described below.
+The Pi has two exposure settings: shutter speed in milliseconds and analogue gain as a multiplication factor. On the IMX477, the noise difference between 1× and 2× gain is very small. Since microscope subjects generally do not move, longer exposures are not a problem. In practice, it is best to start with fully automatic exposure, then switch to Auto 2×: shutter speed remains automatic while gain is fixed at 2×. Set AU_FIXED_GAIN in .env.local to change that value; the button label follows it. The shutter speed may then reach its maximum limit, leaving the image too dark. If that happens, select 5 frames per second. The shutter speed can then increase to a maximum of 120 ms. Still too dark? Switch to manual exposure and set the shutter speed yourself. Of course, fully automatic exposure can also be used throughout, but noise may increase. Pay attention to the camera settling time described below.
 
 ## Field of view
 
@@ -134,7 +134,7 @@ White balance is best set by placing a white surface in front of the camera, usi
 
 ## Camera settling after changes
 
-After changing exposure, white balance or saturation, the Pi may need some time — from a few seconds to around eight seconds — to settle into the new settings. This is normal behaviour for the Pi, so give it time. It is especially noticeable with Auto 1×, manual exposure with low gain, or long shutter speeds. Just let the Pi settle.
+After changing exposure, white balance or saturation, the Pi may need some time — from a few seconds to around eight seconds — to settle into the new settings. This is normal behaviour for the Pi, so give it time. It is especially noticeable with fixed-gain Auto, manual exposure with low gain, or long shutter speeds. Just let the Pi settle.
 
 # GitHub pull requests and issues
 
