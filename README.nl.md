@@ -60,7 +60,7 @@ Een apart **nabewerkingsscript** om de HDR-brackets en de stack foto's automatis
 
 Ingave **Field Of View** (handmatig)
 
-**Automatische belichting** (met of zonder correctie) in twee modes: zowel analoge versterker en sluitertijd zijn variabel, of alleen de sluitertijd en de versterking altijd op minimum (1x). dit laatste reduceert de ruis. Daarnaast een **handmatige belichting**. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. 
+**Automatische belichting** (met of zonder correctie) in twee modes: zowel analoge versterker en sluitertijd zijn variabel, of alleen de sluitertijd en de versterking altijd op een lage waarde (2x). dit laatste reduceert de ruis. Daarnaast een **handmatige belichting**. De preview window kan bij 15 fps geen langere sluitertijden dan 66 ms aan. Voor langere sluitertijden in de preview moet 5 fps worden gekozen. Er is op dit moment een beperking tot een max sluitertijd van 120 ms in het preview window bij automatische belichting. De ISO-waarde, die in fotografie wordt gebruikt, is ruwwege gelijk aan 100x de analoge versterking. Dus 2x betekent een ISO van 200.
 
 **Kleurverzadigingsinstelling**
 
