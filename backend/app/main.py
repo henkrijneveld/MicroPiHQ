@@ -325,7 +325,9 @@ def wait_for_exposure(target_exposure_us: int):
     if picam2 is None:
         raise RuntimeError("Camera not available")
 
-    deadline = monotonic() + AEB_TIMEOUT_SECONDS
+    # Allow extra time for the camera to deliver frames at long exposures.
+    timeout_seconds = AEB_TIMEOUT_SECONDS + 3 * target_exposure_us / 1_000_000
+    deadline = monotonic() + timeout_seconds
     tolerance = max(100, round(target_exposure_us * 0.02))
     last_exposure = None
 
@@ -341,7 +343,7 @@ def wait_for_exposure(target_exposure_us: int):
 
     raise TimeoutError(
         f"Exposure did not stabilise at {target_exposure_us} us "
-        f"within {AEB_TIMEOUT_SECONDS:.0f} seconds; last value was {last_exposure} us"
+        f"within {timeout_seconds:.1f} seconds; last value was {last_exposure} us"
     )
 
 
