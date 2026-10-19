@@ -122,7 +122,7 @@ Standaard staat de resolutie van de preview op hoge resolutie (1280 x 960). Als 
 
 ## Belichting
 
-De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. De minste ruis treedt op bij een zo laag mogelijke analoge versterking: 1x. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Dan op Auto 1x te zetten. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120 ms. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen. Let op het instellen van de camera zoals beneden beschreven!
+De Pi kent voor de belichting twee instellingen. De sluitertijd in milliseconden, en de analoge versterkingsfactor. Bij de IMX477 is het ruisverschil tussen 1× en 2× zeer klein. Omdat microscoopbeelden in principe niet bewegen is een langere sluitertijd geen probleem. Praktisch gesproken is het het beste om de belichting eerst volledig automatisch in te stellen. Schakel dan over naar Auto 2×: de sluitertijd blijft automatisch, de gain wordt vastgezet op 2×. Met AU_FIXED_GAIN in .env.local kan die waarde worden aangepast; de knoptekst verandert mee. De sluitertijd kan dan tegen de maximum grens aan lopen waardoor het beeld te donker wordt. Kies dan 5 frames per second. De sluitertijd loopt dan door tot maximaal 120 ms. Nog steeds te donker? Schakel over naar handmatig en stel de tijd zelf in. Natuurlijk kan er ook gewoon in volledig automatische mode worden gewerkt, alleen kan dan de ruis toenemen. Let op het instellen van de camera zoals beneden beschreven!
 
 ## Field of view
 
@@ -134,7 +134,7 @@ De witbalans kan het beste worden ingesteld door een wit vlak met de te gebruike
 
 ## Stabilisatie camera na wijzigingen
 
-Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden tot een seconde of acht) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Dit is standaard gedrag van de Pi en geef het apparaat gewoon de tijd daarvoor. Dit geldt in het bijzonder bij de instelling Auto 1x, een handmatige instelling met lage versterking, of lange sluiterdtijden. Laat de Pi even zijn gang gaan!
+Na wijzigingen in belichting, witbalans of kleurverzadiging kan het soms even duren (enkele seconden tot een seconde of acht) voor de Pi zich weer goed heeft ingesteld op de nieuwe instellingen. Dit is standaard gedrag van de Pi en geef het apparaat gewoon de tijd daarvoor. Dit geldt in het bijzonder bij Auto met vaste gain, een handmatige instelling met lage versterking of lange sluitertijden. Laat de Pi even zijn gang gaan!
 
 # Github pull requests, github issues
 
