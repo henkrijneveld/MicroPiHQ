@@ -26,7 +26,9 @@ De bestanden kunnen het meest eenvoudige via een SFTP verbinding van de Pi worde
 
 # Installatie
 
-De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerd op de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rpicam-still.
+De installatie gaat ervan uit dat de laatste versie van Trixie is geinstalleerd op de SD kaart. Kan zowel de lite versie zijn als de versie met een desktop, alhoewel dat laatste voor de Pi3B+ al gauw te zwaar wordt. Verder moet de HQ camera zijn aangesloten en getest met rpicam-still:
+
+*rpicam-still --output test.jpg*
 
 Download de ZIP (MicroPiHQ.zip) van de laatste release (rechterkolom in github), unzip deze in een directory op de Pi en draai het *install.sh* script. Aan het eind vindt een check van de implementatie plaats. Bij problemen kan script *check-installation.sh* worden gedraaid, dit script test of alle noodzakelijke componenten aanwezig zijn.
 
